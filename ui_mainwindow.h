@@ -28,6 +28,7 @@
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
+#include "qcustomplot.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -35,6 +36,7 @@ class Ui_MainWindow
 {
 public:
     QWidget *centralwidget;
+    QGridLayout *gridLayout_8;
     QGroupBox *gB_create;
     QGridLayout *gridLayout_6;
     QSpacerItem *horizontalSpacer;
@@ -94,6 +96,7 @@ public:
     QVBoxLayout *verticalLayout_3;
     QPushButton *pB_testing;
     QCheckBox *cB_take_sample;
+    QCustomPlot *widget;
     QMenuBar *menubar;
     QStatusBar *statusbar;
 
@@ -101,12 +104,13 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QString::fromUtf8("MainWindow"));
-        MainWindow->resize(1230, 629);
+        MainWindow->resize(891, 738);
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
+        gridLayout_8 = new QGridLayout(centralwidget);
+        gridLayout_8->setObjectName(QString::fromUtf8("gridLayout_8"));
         gB_create = new QGroupBox(centralwidget);
         gB_create->setObjectName(QString::fromUtf8("gB_create"));
-        gB_create->setGeometry(QRect(70, 30, 464, 399));
         gridLayout_6 = new QGridLayout(gB_create);
         gridLayout_6->setObjectName(QString::fromUtf8("gridLayout_6"));
         horizontalSpacer = new QSpacerItem(247, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
@@ -316,10 +320,12 @@ public:
 
         gridLayout_6->addWidget(cB_load_from_file, 6, 0, 1, 1);
 
+
+        gridLayout_8->addWidget(gB_create, 0, 0, 1, 1);
+
         gB_educate_and_test = new QGroupBox(centralwidget);
         gB_educate_and_test->setObjectName(QString::fromUtf8("gB_educate_and_test"));
         gB_educate_and_test->setEnabled(false);
-        gB_educate_and_test->setGeometry(QRect(590, 30, 511, 371));
         gridLayout_4 = new QGridLayout(gB_educate_and_test);
         gridLayout_4->setObjectName(QString::fromUtf8("gridLayout_4"));
         pB_load_sample = new QPushButton(gB_educate_and_test);
@@ -452,10 +458,23 @@ public:
 
         gridLayout_4->addLayout(verticalLayout_3, 4, 0, 1, 2);
 
+
+        gridLayout_8->addWidget(gB_educate_and_test, 0, 1, 1, 1);
+
+        widget = new QCustomPlot(centralwidget);
+        widget->setObjectName(QString::fromUtf8("widget"));
+        QSizePolicy sizePolicy10(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
+        sizePolicy10.setHorizontalStretch(0);
+        sizePolicy10.setVerticalStretch(0);
+        sizePolicy10.setHeightForWidth(widget->sizePolicy().hasHeightForWidth());
+        widget->setSizePolicy(sizePolicy10);
+
+        gridLayout_8->addWidget(widget, 1, 0, 1, 2);
+
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName(QString::fromUtf8("menubar"));
-        menubar->setGeometry(QRect(0, 0, 1230, 21));
+        menubar->setGeometry(QRect(0, 0, 891, 21));
         MainWindow->setMenuBar(menubar);
         statusbar = new QStatusBar(MainWindow);
         statusbar->setObjectName(QString::fromUtf8("statusbar"));

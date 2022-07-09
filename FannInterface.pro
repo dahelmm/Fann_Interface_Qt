@@ -1,4 +1,4 @@
-QT       += core gui
+QT       += core gui printsupport
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -18,6 +18,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     main.cpp \
     mainwindow.cpp \
+    qcustomplot.cpp \
     src/fann.c \
     src/fann_cascade.c \
     src/fann_error.c \
@@ -27,6 +28,7 @@ SOURCES += \
 
 HEADERS += \
     mainwindow.h \
+    qcustomplot.h \
     src/include/config.h \
     src/include/fann.h \
     src/include/fann_activation.h \
