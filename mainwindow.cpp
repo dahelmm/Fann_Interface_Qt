@@ -35,6 +35,7 @@ void MainWindow::on_pB_create_clicked()
   if(ui->cB_load_from_file->isChecked() == true) {
     QString file_path = QFileDialog::getOpenFileName(this,"Открыть файл ИНС",nullptr,"*.net");
     train_data = fann_read_train_from_file(file_path.toUtf8().constData());
+    //???????????????????
   }
   else {
     if(ui->cB_all_or_alone->isChecked() == true) {
