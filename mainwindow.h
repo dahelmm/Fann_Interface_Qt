@@ -4,6 +4,8 @@
 #include <QMainWindow>
 
 #include <src/include/fann.h>
+#include "qcustomplot.h"
+#include <QVector>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -28,6 +30,12 @@ private:
   unsigned int num_neurons;
   struct fann  *ann;
   struct fann_train_data *train_data, *test_data;
+
+  double xBegin, xEnd, step, X;
+  int N;
+
+  QVector<double> x,y;
+  QVector<double> x2,y2;
 
 };
 #endif // MAINWINDOW_H

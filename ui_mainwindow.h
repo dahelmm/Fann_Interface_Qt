@@ -26,6 +26,7 @@
 #include <QtWidgets/QSpinBox>
 #include <QtWidgets/QStackedWidget>
 #include <QtWidgets/QStatusBar>
+#include <QtWidgets/QTabWidget>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 #include "qcustomplot.h"
@@ -36,7 +37,7 @@ class Ui_MainWindow
 {
 public:
     QWidget *centralwidget;
-    QGridLayout *gridLayout_8;
+    QGridLayout *gridLayout_9;
     QGroupBox *gB_create;
     QGridLayout *gridLayout_6;
     QSpacerItem *horizontalSpacer;
@@ -96,7 +97,16 @@ public:
     QVBoxLayout *verticalLayout_3;
     QPushButton *pB_testing;
     QCheckBox *cB_take_sample;
-    QCustomPlot *widget;
+    QTabWidget *tW_grapfics;
+    QWidget *tab_grapfic_1;
+    QGridLayout *gridLayout_8;
+    QCustomPlot *cP_grapfic_1;
+    QWidget *tab_grapfic_2;
+    QGridLayout *gridLayout_10;
+    QCustomPlot *cP_grapfic_2;
+    QWidget *tab_grapfic_3;
+    QGridLayout *gridLayout_11;
+    QCustomPlot *cP_grapfic_3;
     QMenuBar *menubar;
     QStatusBar *statusbar;
 
@@ -107,8 +117,8 @@ public:
         MainWindow->resize(891, 738);
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
-        gridLayout_8 = new QGridLayout(centralwidget);
-        gridLayout_8->setObjectName(QString::fromUtf8("gridLayout_8"));
+        gridLayout_9 = new QGridLayout(centralwidget);
+        gridLayout_9->setObjectName(QString::fromUtf8("gridLayout_9"));
         gB_create = new QGroupBox(centralwidget);
         gB_create->setObjectName(QString::fromUtf8("gB_create"));
         gridLayout_6 = new QGridLayout(gB_create);
@@ -321,7 +331,7 @@ public:
         gridLayout_6->addWidget(cB_load_from_file, 6, 0, 1, 1);
 
 
-        gridLayout_8->addWidget(gB_create, 0, 0, 1, 1);
+        gridLayout_9->addWidget(gB_create, 0, 0, 1, 1);
 
         gB_educate_and_test = new QGroupBox(centralwidget);
         gB_educate_and_test->setObjectName(QString::fromUtf8("gB_educate_and_test"));
@@ -459,17 +469,51 @@ public:
         gridLayout_4->addLayout(verticalLayout_3, 4, 0, 1, 2);
 
 
-        gridLayout_8->addWidget(gB_educate_and_test, 0, 1, 1, 1);
+        gridLayout_9->addWidget(gB_educate_and_test, 0, 1, 1, 1);
 
-        widget = new QCustomPlot(centralwidget);
-        widget->setObjectName(QString::fromUtf8("widget"));
+        tW_grapfics = new QTabWidget(centralwidget);
+        tW_grapfics->setObjectName(QString::fromUtf8("tW_grapfics"));
+        tab_grapfic_1 = new QWidget();
+        tab_grapfic_1->setObjectName(QString::fromUtf8("tab_grapfic_1"));
+        gridLayout_8 = new QGridLayout(tab_grapfic_1);
+        gridLayout_8->setObjectName(QString::fromUtf8("gridLayout_8"));
+        cP_grapfic_1 = new QCustomPlot(tab_grapfic_1);
+        cP_grapfic_1->setObjectName(QString::fromUtf8("cP_grapfic_1"));
         QSizePolicy sizePolicy10(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
         sizePolicy10.setHorizontalStretch(0);
         sizePolicy10.setVerticalStretch(0);
-        sizePolicy10.setHeightForWidth(widget->sizePolicy().hasHeightForWidth());
-        widget->setSizePolicy(sizePolicy10);
+        sizePolicy10.setHeightForWidth(cP_grapfic_1->sizePolicy().hasHeightForWidth());
+        cP_grapfic_1->setSizePolicy(sizePolicy10);
 
-        gridLayout_8->addWidget(widget, 1, 0, 1, 2);
+        gridLayout_8->addWidget(cP_grapfic_1, 0, 0, 1, 1);
+
+        tW_grapfics->addTab(tab_grapfic_1, QString());
+        tab_grapfic_2 = new QWidget();
+        tab_grapfic_2->setObjectName(QString::fromUtf8("tab_grapfic_2"));
+        gridLayout_10 = new QGridLayout(tab_grapfic_2);
+        gridLayout_10->setObjectName(QString::fromUtf8("gridLayout_10"));
+        cP_grapfic_2 = new QCustomPlot(tab_grapfic_2);
+        cP_grapfic_2->setObjectName(QString::fromUtf8("cP_grapfic_2"));
+        sizePolicy10.setHeightForWidth(cP_grapfic_2->sizePolicy().hasHeightForWidth());
+        cP_grapfic_2->setSizePolicy(sizePolicy10);
+
+        gridLayout_10->addWidget(cP_grapfic_2, 0, 0, 1, 1);
+
+        tW_grapfics->addTab(tab_grapfic_2, QString());
+        tab_grapfic_3 = new QWidget();
+        tab_grapfic_3->setObjectName(QString::fromUtf8("tab_grapfic_3"));
+        gridLayout_11 = new QGridLayout(tab_grapfic_3);
+        gridLayout_11->setObjectName(QString::fromUtf8("gridLayout_11"));
+        cP_grapfic_3 = new QCustomPlot(tab_grapfic_3);
+        cP_grapfic_3->setObjectName(QString::fromUtf8("cP_grapfic_3"));
+        sizePolicy10.setHeightForWidth(cP_grapfic_3->sizePolicy().hasHeightForWidth());
+        cP_grapfic_3->setSizePolicy(sizePolicy10);
+
+        gridLayout_11->addWidget(cP_grapfic_3, 0, 0, 1, 1);
+
+        tW_grapfics->addTab(tab_grapfic_3, QString());
+
+        gridLayout_9->addWidget(tW_grapfics, 1, 0, 1, 2);
 
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
@@ -483,6 +527,7 @@ public:
         retranslateUi(MainWindow);
 
         sW_neurons->setCurrentIndex(1);
+        tW_grapfics->setCurrentIndex(0);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -522,6 +567,9 @@ public:
         pB_educate->setText(QCoreApplication::translate("MainWindow", "\320\236\320\261\321\203\321\207\320\270\321\202\321\214 \320\230\320\235\320\241", nullptr));
         pB_testing->setText(QCoreApplication::translate("MainWindow", "\320\242\320\265\321\201\321\202\320\270\321\200\320\276\320\262\320\260\321\202\321\214 \320\230\320\235\320\241", nullptr));
         cB_take_sample->setText(QCoreApplication::translate("MainWindow", "\320\235\320\260 \320\276\321\201\320\275\320\276\320\262\320\265 \320\270\320\274\320\265\321\216\321\211\320\265\320\271\321\201\321\217 \320\262\321\213\320\261\320\276\321\200\320\272\320\270", nullptr));
+        tW_grapfics->setTabText(tW_grapfics->indexOf(tab_grapfic_1), QCoreApplication::translate("MainWindow", "\320\223\321\200\320\260\321\204\320\270\320\272 1", nullptr));
+        tW_grapfics->setTabText(tW_grapfics->indexOf(tab_grapfic_2), QCoreApplication::translate("MainWindow", "\320\223\321\200\320\260\321\204\320\270\320\272 2", nullptr));
+        tW_grapfics->setTabText(tW_grapfics->indexOf(tab_grapfic_3), QCoreApplication::translate("MainWindow", "\320\223\321\200\320\260\321\204\320\270\320\272 3", nullptr));
     } // retranslateUi
 
 };
