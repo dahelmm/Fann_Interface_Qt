@@ -352,7 +352,7 @@
             </sizepolicy>
            </property>
            <property name="title">
-            <string>Критерий остановки обуяения:</string>
+            <string>Критерий остановки обучения:</string>
            </property>
            <layout class="QGridLayout" name="gridLayout_3">
             <item row="0" column="0">

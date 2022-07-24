@@ -2,10 +2,10 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-
-#include <src/include/fann.h>
 #include "qcustomplot.h"
 #include <QVector>
+
+#include "src/include/floatfann.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -27,8 +27,13 @@ private slots:
 private:
   Ui::MainWindow *ui;
   unsigned int num_layers;
-  unsigned int num_neurons;
+  unsigned int * num_neurons;
+  unsigned int num_neurons_std;
+  unsigned int num_output, num_input;
   struct fann  *ann;
+
+  QString name_train_data; // эта переменная инициализируется
+                           //при нажатии кнопки "Загрузить обучающую выборку"
   struct fann_train_data *train_data, *test_data;
 
   double xBegin, xEnd, step, X;
