@@ -23,14 +23,10 @@ private slots:
   void on_sB_number_layers_valueChanged(int arg1);
   void on_pB_create_clicked();
   void on_cB_all_or_alone_toggled(bool checked);
-
-
   void on_cB_all_or_alone_stateChanged(int arg1);
-
-
   void on_sB_number_neurons_valueChanged(int arg1);
-
   void on_pB_load_sample_clicked();
+  void on_pB_analyze_clicked();
 
 private:
   Ui::MainWindow *ui;
