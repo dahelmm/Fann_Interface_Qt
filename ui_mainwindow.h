@@ -637,7 +637,7 @@ public:
         retranslateUi(MainWindow);
 
         sW_neurons->setCurrentIndex(1);
-        cmbB_fun_activation_layers->setCurrentIndex(4);
+        cmbB_fun_activation_layers->setCurrentIndex(0);
         tW_grapfics->setCurrentIndex(0);
 
 

@@ -102,12 +102,12 @@ void MainWindow::on_sB_number_layers_valueChanged(int value)
 {
   num_layers = value;
   if(value>ui->cmbB_select_neurons->count()) {
-    for (int i = (ui->cmbB_select_neurons->count())+ 1; i<=value; i++) {
+    for (int i = (ui->cmbB_select_neurons->count()) + 1; i <= value; i++) {
       ui->cmbB_select_neurons->addItem("Слое " + QString::number(i));
     }
   }
   else {
-    for (int i = (ui->cmbB_select_neurons->count()); i>=value; i--) {
+    for (int i = (ui->cmbB_select_neurons->count()); i >= value; i--) {
       ui->cmbB_select_neurons->removeItem(i);
     }
   }
@@ -138,7 +138,7 @@ void MainWindow::on_pB_create_clicked()
     }
 
 
-    fann_set_activation_function_hidden(ann, fann_activationfunc_enum(ui->cmbB_fun_activation_layers->currentIndex()));//здесь должно быть то, что ты задаёшь в форме
+    fann_set_activation_function_hidden(ann, fann_activationfunc_enum(ui->cmbB_fun_activation_layers->currentIndex()));
     fann_set_activation_function_output(ann, fann_activationfunc_enum(ui->cmbB_fun_activation_outputs->currentIndex()));
   }
 
@@ -183,4 +183,47 @@ void MainWindow::on_pB_load_sample_clicked()
   ui->lE_analysis_count_pair->setText(QString::number(train_data->num_data));
   ui->lE_analysis_count_input->setText(QString::number(train_data->num_input));
   ui->lE_analysis_count_output->setText(QString::number(train_data->num_output));
+}
+
+void MainWindow::on_pB_analyze_clicked()
+{
+
+  QString file_name = ui->lE_analysis_fileName->text();
+  ui->tW_grapfics->setTabText(0,"Анализ " + file_name + " выходов");
+  ui->tW_grapfics->setTabText(1,"Анализ " + file_name + " входов");
+  ui->cP_grapfic_1->clearGraphs();
+  ui->cP_grapfic_2->clearGraphs();
+  ui->cP_grapfic_1->xAxis->setRange(0,train_data->num_data);
+  ui->cP_grapfic_1->yAxis->setRange(-1,1);
+  ui->cP_grapfic_2->xAxis->setRange(0,train_data->num_data);
+  ui->cP_grapfic_2->yAxis->setRange(-1,1);
+
+  //Выходные каналы
+  for (unsigned int j = 0; j < train_data->num_output; j++) {
+    x.clear();
+    y.clear();
+    for (unsigned int i = 0; i < train_data->num_data; i++) {
+        x.push_back(i);
+        y.push_back(train_data->output[i][j]);
+    }
+    ui->cP_grapfic_1->addGraph();
+    ui->cP_grapfic_1->graph(j)->addData(x,y);
+    ui->cP_grapfic_1->graph(j)->setPen(QColor(Qt::GlobalColor(j+7)));
+  }
+  ui->cP_grapfic_1->replot();
+
+  //Входные каналы
+  for (unsigned int j = 0; j < train_data->num_input; j++) {
+    x.clear();
+    y.clear();
+    for (unsigned int i = 0; i < train_data->num_data; i++) {
+        x.push_back(i);
+        y.push_back(train_data->input[i][j]);
+    }
+    ui->cP_grapfic_2->addGraph();
+    ui->cP_grapfic_2->graph(j)->addData(x,y);
+    ui->cP_grapfic_2->graph(j)->setPen(QColor(Qt::GlobalColor(j+7)));
+  }
+  ui->cP_grapfic_2->replot();
+
 }
