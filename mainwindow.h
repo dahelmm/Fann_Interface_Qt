@@ -4,6 +4,8 @@
 #include <QMainWindow>
 #include "qcustomplot.h"
 #include <QVector>
+#include "newcheckbox.h"
+#include "newcustomplot.h"
 
 #include "src/include/floatfann.h"
 
@@ -19,6 +21,9 @@ public:
   MainWindow(QWidget *parent = nullptr);
   ~MainWindow();
 
+signals:
+  void signalTrue(int);
+
 private slots:
   void on_sB_number_layers_valueChanged(int arg1);
   void on_pB_create_clicked();
@@ -26,7 +31,14 @@ private slots:
   void on_cB_all_or_alone_stateChanged(int arg1);
   void on_sB_number_neurons_valueChanged(int arg1);
   void on_pB_load_sample_clicked();
-  void on_pB_analyze_clicked();
+
+
+  void slotChecked();
+
+  void on_tW_grapfics_currentChanged(int index);
+
+  void slotTrue(int id);
+
 
 private:
   Ui::MainWindow *ui;
@@ -36,6 +48,11 @@ private:
   unsigned int num_output, num_input;
   struct fann  *ann;
 
+  NewCheckBox *checkBox;
+  NewCustomPlot *customPlot;
+
+
+  QGridLayout *gridLGraphics;
   QString name_train_data; // эта переменная инициализируется
                            //при нажатии кнопки "Загрузить обучающую выборку"
   struct fann_train_data *train_data, *test_data;

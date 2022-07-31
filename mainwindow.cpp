@@ -29,12 +29,9 @@ MainWindow::MainWindow(QWidget *parent)
 #endif
 
   ui->setupUi(this);
-  ui->cP_grapfic_1->xAxis->setRange(-5,5);
-  ui->cP_grapfic_1->yAxis->setRange(0,10);
-  ui->cP_grapfic_2->xAxis->setRange(-5,5);
-  ui->cP_grapfic_2->yAxis->setRange(0,10);
-  ui->cP_grapfic_3->xAxis->setRange(-5,5);
-  ui->cP_grapfic_3->yAxis->setRange(0,10);
+//  ui->cP_grapfic_1->xAxis->setRange(-5,5);
+//  ui->cP_grapfic_1->yAxis->setRange(0,10);
+
 
   step = 0.1;
   xBegin = -4;
@@ -48,49 +45,19 @@ MainWindow::MainWindow(QWidget *parent)
     y2.push_back(10-(X*X));
   }
 
-  ui->cP_grapfic_1->addGraph();
-  ui->cP_grapfic_1->addGraph();
-  ui->cP_grapfic_1->graph(0)->setPen(QColor(Qt::red));
-  ui->cP_grapfic_1->graph(1)->setPen(QColor(Qt::blue));
-  ui->cP_grapfic_1->graph(0)->addData(x,y);
-  ui->cP_grapfic_1->graph(1)->addData(x2,y2);
-  ui->cP_grapfic_1->replot();
+//  ui->cP_grapfic_1->addGraph();
+//  ui->cP_grapfic_1->addGraph();
+//  ui->cP_grapfic_1->graph(0)->setPen(QColor(Qt::red));
+//  ui->cP_grapfic_1->graph(1)->setPen(QColor(Qt::blue));
+//  ui->cP_grapfic_1->graph(0)->addData(x,y);
+//  ui->cP_grapfic_1->graph(1)->addData(x2,y2);
+//  ui->cP_grapfic_1->replot();
 
-  x.clear();
-  y.clear();
-  x2.clear();
-  y2.clear();
-  for (X = xBegin; X <= xEnd; X += step) {
-    x.push_back(X+1);
-    y.push_back(X*X);
-    x2.push_back(X-1);
-    y2.push_back(10-(X*X));
-  }
-  ui->cP_grapfic_2->addGraph();
-  ui->cP_grapfic_2->addGraph();
-  ui->cP_grapfic_2->graph(0)->setPen(QColor(Qt::red));
-  ui->cP_grapfic_2->graph(1)->setPen(QColor(Qt::blue));
-  ui->cP_grapfic_2->graph(0)->addData(x,y);
-  ui->cP_grapfic_2->graph(1)->addData(x2,y2);
-  ui->cP_grapfic_2->replot();
+  connect(this, &MainWindow::signalTrue, this, &MainWindow::slotTrue);
 
-  x.clear();
-  y.clear();
-  x2.clear();
-  y2.clear();
-  for (X = xBegin; X <= xEnd; X += step) {
-    x.push_back(X);
-    y.push_back((X*X)+1);
-    x2.push_back(X);
-    y2.push_back((10-(X*X))-1);
-  }
-  ui->cP_grapfic_3->addGraph();
-  ui->cP_grapfic_3->addGraph();
-  ui->cP_grapfic_3->graph(0)->setPen(QColor(Qt::red));
-  ui->cP_grapfic_3->graph(1)->setPen(QColor(Qt::blue));
-  ui->cP_grapfic_3->graph(0)->addData(x,y);
-  ui->cP_grapfic_3->graph(1)->addData(x2,y2);
-  ui->cP_grapfic_3->replot();
+
+
+
 }
 
 MainWindow::~MainWindow()
@@ -142,7 +109,7 @@ void MainWindow::on_pB_create_clicked()
     fann_set_activation_function_output(ann, fann_activationfunc_enum(ui->cmbB_fun_activation_outputs->currentIndex()));
   }
 
-  ui->gB_educate_and_test->setEnabled(true);
+  ui->gB_training_set->setEnabled(true);
   //fann_set_training_algorithm(ann, FANN_TRAIN_INCREMENTAL);
 }
 
@@ -183,47 +150,93 @@ void MainWindow::on_pB_load_sample_clicked()
   ui->lE_analysis_count_pair->setText(QString::number(train_data->num_data));
   ui->lE_analysis_count_input->setText(QString::number(train_data->num_input));
   ui->lE_analysis_count_output->setText(QString::number(train_data->num_output));
-}
 
-void MainWindow::on_pB_analyze_clicked()
-{
 
-  QString file_name = ui->lE_analysis_fileName->text();
-  ui->tW_grapfics->setTabText(0,"Анализ " + file_name + " выходов");
-  ui->tW_grapfics->setTabText(1,"Анализ " + file_name + " входов");
-  ui->cP_grapfic_1->clearGraphs();
-  ui->cP_grapfic_2->clearGraphs();
-  ui->cP_grapfic_1->xAxis->setRange(0,train_data->num_data);
-  ui->cP_grapfic_1->yAxis->setRange(-1,1);
-  ui->cP_grapfic_2->xAxis->setRange(0,train_data->num_data);
-  ui->cP_grapfic_2->yAxis->setRange(-1,1);
 
-  //Выходные каналы
-  for (unsigned int j = 0; j < train_data->num_output; j++) {
-    x.clear();
-    y.clear();
-    for (unsigned int i = 0; i < train_data->num_data; i++) {
-        x.push_back(i);
-        y.push_back(train_data->output[i][j]);
-    }
-    ui->cP_grapfic_1->addGraph();
-    ui->cP_grapfic_1->graph(j)->addData(x,y);
-    ui->cP_grapfic_1->graph(j)->setPen(QColor(Qt::GlobalColor(j+7)));
-  }
-  ui->cP_grapfic_1->replot();
-
-  //Входные каналы
+  gridLGraphics = new QGridLayout(ui->gB_graphic_N);
   for (unsigned int j = 0; j < train_data->num_input; j++) {
+    checkBox = new NewCheckBox;
+    checkBox->setText("Вход " + QString::number(j+1));
+    gridLGraphics->addWidget(checkBox);
+    customPlot = new NewCustomPlot(ui->tW_grapfics);
+    customPlot->xAxis->setRange(0,train_data->num_data);
+    customPlot->yAxis->setRange(-1,1);
+    customPlot->addGraph();
     x.clear();
     y.clear();
     for (unsigned int i = 0; i < train_data->num_data; i++) {
         x.push_back(i);
         y.push_back(train_data->input[i][j]);
     }
-    ui->cP_grapfic_2->addGraph();
-    ui->cP_grapfic_2->graph(j)->addData(x,y);
-    ui->cP_grapfic_2->graph(j)->setPen(QColor(Qt::GlobalColor(j+7)));
+    customPlot->graph(0)->addData(x,y);
+    customPlot->graph(0)->setPen(QColor(Qt::red));
+    customPlot->replot();
+    ui->tW_grapfics->addTab(customPlot,"График " + QString::number(j+1));
+    connect(checkBox, &QCheckBox::pressed, this, &MainWindow::slotChecked);
+
   }
-  ui->cP_grapfic_2->replot();
+  for (unsigned int j = 0; j < train_data->num_output; j++) {
+    checkBox = new NewCheckBox(ui->tW_grapfics);
+    checkBox->setText("Выход " + QString::number(j+1));
+    gridLGraphics->addWidget(checkBox);
+
+  }
+
+  ui->gB_graphic_N->setTitle("График 1");
+
+  ui->gB_training->setEnabled(true);
 
 }
+
+
+
+void MainWindow::slotChecked()
+{
+    for(int i = 0; i < gridLGraphics->count(); i++)
+    {
+      checkBox = qobject_cast<NewCheckBox *> (gridLGraphics->itemAt(i)->widget());
+      if(checkBox->isChecked())
+      {
+        emit signalTrue(checkBox->getID());
+      }
+    }
+}
+
+
+void MainWindow::on_tW_grapfics_currentChanged(int index)
+{
+  ui->gB_graphic_N->setTitle("График " + QString::number(index+1));
+  for(int i = 0; i < gridLGraphics->count(); i++)
+  {
+    NewCheckBox *checkBoxx = qobject_cast<NewCheckBox *> (gridLGraphics->itemAt(i)->widget());
+    if(index+1 == checkBoxx->getID())
+    {
+      checkBoxx->setChecked(true);
+    }
+    else
+    {
+      checkBoxx->setChecked(false);
+    }
+  }
+}
+
+void MainWindow::slotTrue(int id)
+{
+  for (int j = 0; j < ui->tW_grapfics->count(); j++) {
+    customPlot = qobject_cast<NewCustomPlot *> (ui->tW_grapfics->widget(j));
+    if(id == customPlot->getID())
+    {
+      x.clear();
+      y.clear();
+      for (unsigned int k = 0; k < train_data->num_data; k++) {
+          x.push_back(k);
+          y.push_back(train_data->input[id][k]);
+      }
+      customPlot->addGraph();
+      customPlot->graph(id)->addData(x,y);
+      customPlot->graph(id)->setPen(QColor(Qt::blue));
+      customPlot->replot();
+    }
+  }
+}
+

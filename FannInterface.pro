@@ -20,6 +20,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     main.cpp \
     mainwindow.cpp \
+    newcheckbox.cpp \
+    newcustomplot.cpp \
     qcustomplot.cpp \
     src/fann.c \
     src/fann_cascade.c \
@@ -30,6 +32,8 @@ SOURCES += \
 
 HEADERS += \
     mainwindow.h \
+    newcheckbox.h \
+    newcustomplot.h \
     qcustomplot.h \
     src/include/config.h \
     src/include/fann.h \
