@@ -157,11 +157,8 @@ void MainWindow::on_pB_load_sample_clicked()
   for (unsigned int j = 0; j < train_data->num_input; j++) {
     checkBox = new NewCheckBox;
     checkBox->setText("Вход " + QString::number(j+1));
-    checkBox->setObjectName(QString("%1").arg(j));
-
     gridLGraphics->addWidget(checkBox);
     customPlot = new NewCustomPlot(ui->tW_grapfics);
-    customPlot->setObjectName(QString("%1").arg(j));
     customPlot->xAxis->setRange(0,train_data->num_data);
     customPlot->yAxis->setRange(-1,1);
     customPlot->addGraph();
@@ -198,9 +195,9 @@ void MainWindow::slotChecked()
     for(int i = 0; i < gridLGraphics->count(); i++)
     {
       checkBox = qobject_cast<NewCheckBox *> (gridLGraphics->itemAt(i)->widget());
-      if((checkBox->getID() == i) && (checkBox->isChecked()))
+      if(checkBox->isChecked())
       {
-        emit signalTrue(i);
+        emit signalTrue(checkBox->getID());
       }
     }
 }
@@ -211,53 +208,35 @@ void MainWindow::on_tW_grapfics_currentChanged(int index)
   ui->gB_graphic_N->setTitle("График " + QString::number(index+1));
   for(int i = 0; i < gridLGraphics->count(); i++)
   {
-    checkBox = qobject_cast<NewCheckBox *> (gridLGraphics->itemAt(i)->widget());
-    if(index == checkBox->objectName().toInt())
+    NewCheckBox *checkBoxx = qobject_cast<NewCheckBox *> (gridLGraphics->itemAt(i)->widget());
+    if(index+1 == checkBoxx->getID())
     {
-      checkBox->setChecked(true);
-
+      checkBoxx->setChecked(true);
     }
     else
     {
-      checkBox->setChecked(false);
+      checkBoxx->setChecked(false);
     }
   }
 }
 
 void MainWindow::slotTrue(int id)
 {
-  QList<NewCustomPlot*> list = ui->tW_grapfics->findChildren<NewCustomPlot*>();
-  foreach(NewCustomPlot *cp, list)
-  {
-    if(cp->getID() == id)
+  for (int j = 0; j < ui->tW_grapfics->count(); j++) {
+    customPlot = qobject_cast<NewCustomPlot *> (ui->tW_grapfics->widget(j));
+    if(id == customPlot->getID())
     {
-      cp->addGraph();
       x.clear();
       y.clear();
-      for (unsigned int i = 0; i < train_data->num_data; i++) {
-          x.push_back(i);
-          y.push_back(train_data->input[id][i]);
+      for (unsigned int k = 0; k < train_data->num_data; k++) {
+          x.push_back(k);
+          y.push_back(train_data->input[id][k]);
       }
-      cp->graph(cp->graphCount()-1)->addData(x,y);
-      cp->graph(cp->graphCount()-1)->setPen(QColor(Qt::blue));
-      cp->replot();
+      customPlot->addGraph();
+      customPlot->graph(id)->addData(x,y);
+      customPlot->graph(id)->setPen(QColor(Qt::blue));
+      customPlot->replot();
     }
   }
-//  for (int j = 0; j < ui->tW_grapfics->findChildren<customPlot().; j++) {
-//    customPlot = qobject_cast<NewCustomPlot *> (ui->tW_grapfics->widget(j));
-//    if(customPlot->objectName().toInt() == id)
-//    {
-//      x.clear();
-//      y.clear();
-//      for (unsigned int k = 0; k < train_data->num_data; k++) {
-//          x.push_back(k);
-//          y.push_back(train_data->input[id][k]);
-//      }
-//      customPlot->addGraph();
-//      customPlot->graph(id)->addData(x,y);
-//      customPlot->graph(id)->setPen(QColor(Qt::blue));
-//      customPlot->replot();
-//    }
-//  }
 }
 
