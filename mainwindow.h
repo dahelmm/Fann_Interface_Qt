@@ -4,8 +4,7 @@
 #include <QMainWindow>
 #include "qcustomplot.h"
 #include <QVector>
-#include "newcheckbox.h"
-#include "newcustomplot.h"
+
 
 #include "src/include/floatfann.h"
 

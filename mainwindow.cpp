@@ -156,7 +156,7 @@ void MainWindow::on_pB_load_sample_clicked()
     QCheckBox *checkBox = new QCheckBox;
     checkBox->setText("Вход " + QString::number(j+1));
     checkBox->setObjectName(QString::number(j));
-    connect(checkBox, &QCheckBox::toggled, this, &MainWindow::slotChecked);
+    connect(checkBox, &QCheckBox::clicked, this, &MainWindow::slotChecked);
     gridLGraphics->addWidget(checkBox);
     QCustomPlot *customPlot = new QCustomPlot(ui->tW_grapfics);
     customPlot->xAxis->setRange(0,train_data->num_data);
@@ -169,7 +169,7 @@ void MainWindow::on_pB_load_sample_clicked()
         y.push_back(train_data->input[i][j]);
     }
     customPlot->graph(0)->addData(x,y);
-    customPlot->graph(0)->setPen(QColor(Qt::red));
+    customPlot->graph(0)->setPen(QColor(rand()%255,rand()%255,rand()%255));
     customPlot->graph(0)->setName(QString::number(j));
     customPlot->replot();
     ui->tW_grapfics->addTab(customPlot,"График " + QString::number(j+1));
@@ -178,7 +178,7 @@ void MainWindow::on_pB_load_sample_clicked()
     QCheckBox *checkBox = new QCheckBox(ui->tW_grapfics);
     checkBox->setText("Выход " + QString::number(j+1-train_data->num_input));
     checkBox->setObjectName(QString::number(j));
-    connect(checkBox, &QCheckBox::toggled, this, &MainWindow::slotChecked);
+    connect(checkBox, &QCheckBox::clicked, this, &MainWindow::slotChecked);
     gridLGraphics->addWidget(checkBox);
   }
 
@@ -206,13 +206,14 @@ void MainWindow::slotChecked(bool state)
           y.push_back(train_data->input[i][box->objectName().toInt()]);
       }
       plot->graph(plot->graphCount()-1)->addData(x,y);
-      plot->graph(plot->graphCount()-1)->setPen(QColor(Qt::blue));
+      plot->graph(plot->graphCount()-1)->setPen(QColor(rand()%255,rand()%255,rand()%255));
       plot->graph(plot->graphCount()-1)->setName(box->objectName());
       plot->replot();
     }
     else
     {
-      plot->removeGraph(box->objectName().toInt());
+//      if(plot->graph(box->objectName().toInt())->name() == box->objectName())
+        plot->removeGraph(0);
     }
   }
   else if(box->objectName().toUInt() > train_data->num_input)
@@ -238,6 +239,7 @@ void MainWindow::on_tW_grapfics_currentChanged(int index)
       checkBox->setChecked(false);
     }
   }
+
 }
 
 void MainWindow::slotTrue(int id)
@@ -254,7 +256,7 @@ void MainWindow::slotTrue(int id)
       }
       customPlot->addGraph();
       customPlot->graph(customPlot->objectName().toInt())->addData(x,y);
-      customPlot->graph(customPlot->objectName().toInt())->setPen(QColor(Qt::blue));
+      customPlot->graph(customPlot->objectName().toInt())->setPen(QColor(rand()%255,rand()%255,rand()%255));
       customPlot->replot();
     }
   }
