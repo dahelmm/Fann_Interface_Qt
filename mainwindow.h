@@ -33,7 +33,7 @@ private slots:
   void on_pB_load_sample_clicked();
 
 
-  void slotChecked();
+  void slotChecked(bool state);
 
   void on_tW_grapfics_currentChanged(int index);
 
@@ -48,8 +48,8 @@ private:
   unsigned int num_output, num_input;
   struct fann  *ann;
 
-  NewCheckBox *checkBox;
-  NewCustomPlot *customPlot;
+//  QCheckBox *checkBox;
+//  QCustomPlot *customPlot;
 
 
   QGridLayout *gridLGraphics;
