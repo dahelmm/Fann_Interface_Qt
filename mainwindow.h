@@ -59,6 +59,8 @@ private:
   double xBegin, xEnd, step, X;
   int N;
 
+  int arr[2];
+
   QVector<double> x,y;
   QVector<double> x2,y2;
 

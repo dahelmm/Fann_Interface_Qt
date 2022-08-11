@@ -177,7 +177,7 @@ void MainWindow::on_pB_load_sample_clicked()
       customPlot->replot();
 
     }
-    ui->tW_grapfics->addTab(customPlot,"График " + QString::number(j+1));
+    arr[j] = ui->tW_grapfics->insertTab(j,customPlot,"График " + QString::number(j+1));
 
   }
 
@@ -193,7 +193,7 @@ void MainWindow::on_pB_load_sample_clicked()
   QList<QCustomPlot*> plots = ui->tW_grapfics->findChildren<QCustomPlot*>();
   foreach(auto *item, plots)
   {
-    for (unsigned int i = train_data->num_input; i <= train_data->num_input+train_data->num_output; i++)
+    for (unsigned int i = train_data->num_input; i < train_data->num_input+train_data->num_output; i++)
     {
       item->addGraph();
       x.clear();
@@ -207,39 +207,21 @@ void MainWindow::on_pB_load_sample_clicked()
       item->replot();
     }
   }
-
-//  for (unsigned int j = train_data->num_output; j <= train_data->num_input+train_data->num_output; j++) {
-//    QCustomPlot *customPlot = new QCustomPlot(ui->tW_grapfics);
-
-//    customPlot->xAxis->setRange(0,train_data->num_data);
-//    customPlot->yAxis->setRange(-1,1);
-//    for(unsigned int i = 0; i < train_data->num_output; i++)
-//    {
-//      customPlot->addGraph();
-//      x.clear();
-//      y.clear();
-//      for (unsigned int k = 0; k < train_data->num_data; k++) {
-//          x.push_back(k);
-//          y.push_back(train_data->output[k][i]);
-//      }
-//      customPlot->graph(i)->addData(x,y);
-//      customPlot->graph(i)->setPen(QColor(rand()%255,rand()%255,rand()%255));
-//      customPlot->replot();
-
-//    }
-//    ui->tW_grapfics->addTab(customPlot,"График " + QString::number(j));
-
-//  }
-
-
   ui->gB_training->setEnabled(true);
-
 }
 
 
 
 void MainWindow::slotChecked(bool state)
 {
+  QCheckBox *box = (QCheckBox*) sender();
+  QList<QCustomPlot *> plots = ui->tW_grapfics->findChildren<QCustomPlot*>();
+  if(state)
+    plots[ui->tW_grapfics->currentIndex()]->graph(box->objectName().toInt())->setVisible(false);
+//  else
+//    plots[ui->tW_grapfics->currentIndex()]->removeGraph(0);
+
+
 //  QCheckBox *box = (QCheckBox*) sender();
 //  if(box->objectName().toUInt() < train_data->num_input)
 //  {
