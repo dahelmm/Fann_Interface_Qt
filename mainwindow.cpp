@@ -240,12 +240,16 @@ void MainWindow::on_cB_zoom_stateChanged(int state)
 
   QCustomPlot * plot = qobject_cast<QCustomPlot*>(ui->tW_grapfics->widget(ui->tW_grapfics->currentIndex()));
   if(state)
+  {
+    ui->cB_zoom->setText("Отключить масштабирование");
     plot->setSelectionRectMode(QCP::srmZoom);
+  }
   else
   {
     plot->xAxis->setRange(0,train_data->num_data);
     plot->yAxis->setRange(-1,1);
     plot->setSelectionRectMode(QCP::srmNone);
+    ui->cB_zoom->setText("Включить масштабирование");
 
   }
   plot->setInteraction(QCP::iRangeDrag,state);

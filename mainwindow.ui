@@ -799,7 +799,7 @@
     <item row="1" column="0">
      <widget class="QCheckBox" name="cB_zoom">
       <property name="text">
-       <string>Включить зум</string>
+       <string>Включить масштабирование</string>
       </property>
      </widget>
     </item>
