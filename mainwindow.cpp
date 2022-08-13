@@ -111,77 +111,90 @@ void MainWindow::on_sB_number_neurons_valueChanged(int value)
 
 void MainWindow::on_pB_load_sample_clicked()
 {
-  QString file_path = QFileDialog::getOpenFileName(this,"Открыть файл ИНС",nullptr,"*.train");
-  train_data = fann_read_train_from_file(file_path.toUtf8());
-  QFileInfo fileInfo(file_path);
+    QString file_path = QFileDialog::getOpenFileName(this,"Открыть файл ИНС",nullptr,"*.train");
+    train_data = fann_read_train_from_file(file_path.toUtf8());
+    QFileInfo fileInfo(file_path);
 
-  ui->lE_analysis_fileName->setText(fileInfo.fileName());
-  ui->lE_analysis_count_pair->setText(QString::number(train_data->num_data));
-  ui->lE_analysis_count_input->setText(QString::number(train_data->num_input));
-  ui->lE_analysis_count_output->setText(QString::number(train_data->num_output));
+    ui->lE_analysis_fileName->setText(fileInfo.fileName());
+    ui->lE_analysis_count_pair->setText(QString::number(train_data->num_data));
+    ui->lE_analysis_count_input->setText(QString::number(train_data->num_input));
+    ui->lE_analysis_count_output->setText(QString::number(train_data->num_output));
 
-  gridLGraphics = new QGridLayout(ui->gB_graphic_N);
-  for (unsigned int j = 0; j < train_data->num_input; j++) {
-    QCheckBox *checkBox = new QCheckBox;
-    checkBox->setText("Вход " + QString::number(j+1));
-    checkBox->setObjectName(QString::number(j));
-    connect(checkBox, &QCheckBox::toggled, this, &MainWindow::slotChecked);
-    gridLGraphics->addWidget(checkBox);
-  }
+    gridLGraphics = new QGridLayout(ui->gB_graphic_N);
+    for (unsigned int j = 0; j < train_data->num_input; j++) {
+      QCheckBox *checkBox = new QCheckBox;
+      checkBox->setText("Вход " + QString::number(j+1));
+      checkBox->setObjectName(QString::number(j));
+      connect(checkBox, &QCheckBox::toggled, this, &MainWindow::slotChecked);
+      gridLGraphics->addWidget(checkBox);
+    }
 
-  for (unsigned int j = train_data->num_input; j < (train_data->num_output + train_data->num_input); j++) {
-    QCheckBox *checkBox = new QCheckBox(ui->tW_grapfics);
-    checkBox->setText("Выход " + QString::number(j+1-train_data->num_input));
-    checkBox->setObjectName(QString::number(j));
-    connect(checkBox, &QCheckBox::clicked, this, &MainWindow::slotChecked);
-    gridLGraphics->addWidget(checkBox);
-  }
-  for (unsigned int j = 0; j < train_data->num_input; j++) {
-    QCustomPlot *customPlot = new QCustomPlot(ui->tW_grapfics);
+    for (unsigned int j = train_data->num_input; j < (train_data->num_output + train_data->num_input); j++) {
+      QCheckBox *checkBox = new QCheckBox(ui->tW_grapfics);
+      checkBox->setText("Выход " + QString::number(j+1-train_data->num_input));
+      checkBox->setObjectName(QString::number(j));
+      connect(checkBox, &QCheckBox::clicked, this, &MainWindow::slotChecked);
+      gridLGraphics->addWidget(checkBox);
+    }
+    for (unsigned int j = 0; j < train_data->num_input; j++) {
+      QCustomPlot *customPlot = new QCustomPlot(ui->tW_grapfics);
 
-    customPlot->xAxis->setRange(0,train_data->num_data);
-    customPlot->yAxis->setRange(-1,1);
-    for(unsigned int i = 0; i < train_data->num_input+train_data->num_output; i++)
-    {
-      customPlot->addGraph();
-      x.clear();
-      y.clear();
-      for (unsigned int k = 0; k < train_data->num_data; k++) {
-          x.push_back(k);
-          if(i<train_data->num_input)
-            y.push_back(train_data->input[k][i]);
-          else
-            y.push_back(train_data->output[k][i]);
+      customPlot->xAxis->setRange(0,train_data->num_data);
+      customPlot->yAxis->setRange(-1,1);
+      customPlot->xAxis->setLabel("Данные");
+      customPlot->yAxis->setLabel("Вход");
+      for(unsigned int i = 0; i < train_data->num_input+train_data->num_output; i++)
+      {
+        customPlot->addGraph();
+        x.clear();
+        y.clear();
+        for (unsigned int k = 0; k < train_data->num_data; k++) {
+            x.push_back(k);
+            if(i<train_data->num_input)
+              y.push_back(train_data->input[k][i]);
+            else
+              y.push_back(train_data->output[k][i]);
+        }
+        if(i < train_data->num_input)
+          customPlot->graph(i)->setName(QString("Вход %1").arg(i+1));
+        else
+          customPlot->graph(i)->setName(QString("Выход %1").arg(i+1));
+
+        customPlot->legend->setVisible(true);
+        QPen penPlot;
+        penPlot.setWidth(3);
+        penPlot.setColor(QColor((rand()%255),rand()%255,(rand()%255)));
+        customPlot->graph(i)->addData(x,y);
+        customPlot->graph(i)->setVisible(false);
+        customPlot->graph(i)->setPen(penPlot);
+
       }
-      customPlot->graph(i)->addData(x,y);
-      customPlot->graph(i)->setPen(QColor(rand()%255,rand()%255,rand()%255));
+      customPlot->setObjectName(QString::number(j));
 
+  //    customPlot->replot();
+      ui->tW_grapfics->insertTab(j,customPlot,QString("График %1").arg(j+1));
     }
-    customPlot->setObjectName(QString::number(j));
-    customPlot->replot();
 
-    ui->tW_grapfics->insertTab(j,customPlot,QString("График %1").arg(j+1));
-  }
+    ui->gB_training->setEnabled(true);
 
-  ui->gB_training->setEnabled(true);
-
-  for(int k = 0; k < ui->tW_grapfics->count(); k++)
-  {
-    QCustomPlot * plot = qobject_cast<QCustomPlot*>(ui->tW_grapfics->widget(k));
-    for(int l = 0; l < plot->graphCount(); l++)
+    for(int k = 0; k < ui->tW_grapfics->count(); k++)
     {
-      plot->graph(l)->setVisible(l == k);
-      plot->replot();
+      QCustomPlot * plot = qobject_cast<QCustomPlot*>(ui->tW_grapfics->widget(k));
+      for(int l = 0; l < plot->graphCount(); l++)
+      {
+        plot->graph(l)->setVisible(l == k);
+        plot->replot();
 
+      }
     }
-  }
-  QCustomPlot * plot = qobject_cast<QCustomPlot*>(ui->tW_grapfics->widget(ui->tW_grapfics->currentIndex()));
-  for(int i = 0; i < gridLGraphics->count(); i++)
-  {
-    QCheckBox *box = qobject_cast<QCheckBox*>(gridLGraphics->itemAt(i)->widget());
-    box->setChecked(plot->graph(i)->visible());
-  }
+    QCustomPlot * plot = qobject_cast<QCustomPlot*>(ui->tW_grapfics->widget(ui->tW_grapfics->currentIndex()));
+    for(int i = 0; i < gridLGraphics->count(); i++)
+    {
+      QCheckBox *box = qobject_cast<QCheckBox*>(gridLGraphics->itemAt(i)->widget());
+      box->setChecked(plot->graph(i)->visible());
+    }
 
+    ui->gB_training->setEnabled(true);
 }
 
 
@@ -205,9 +218,37 @@ void MainWindow::on_tW_grapfics_currentChanged(int index)
     QCheckBox *checkBox = qobject_cast<QCheckBox *> (gridLGraphics->itemAt(i)->widget());
     checkBox->setChecked(plot->graph(i)->visible());
   }
+  ui->cB_zoom->setChecked(false);
 
 
 }
 
 
 
+
+void MainWindow::on_checkBox_stateChanged(int state)
+{
+  if(state)
+    ui->pB_educate->setText("Обучить на частичной выборке");
+  else
+    ui->pB_educate->setText("Обучить на полной выборке");
+
+}
+
+void MainWindow::on_cB_zoom_stateChanged(int state)
+{
+
+  QCustomPlot * plot = qobject_cast<QCustomPlot*>(ui->tW_grapfics->widget(ui->tW_grapfics->currentIndex()));
+  if(state)
+    plot->setSelectionRectMode(QCP::srmZoom);
+  else
+  {
+    plot->xAxis->setRange(0,train_data->num_data);
+    plot->yAxis->setRange(-1,1);
+    plot->setSelectionRectMode(QCP::srmNone);
+
+  }
+  plot->setInteraction(QCP::iRangeDrag,state);
+  plot->setInteraction(QCP::iRangeZoom,state);
+  plot->replot();
+}

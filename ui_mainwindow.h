@@ -37,6 +37,23 @@ class Ui_MainWindow
 public:
     QWidget *centralwidget;
     QGridLayout *gridLayout_9;
+    QGroupBox *gB_training_set;
+    QGridLayout *gridLayout_12;
+    QGroupBox *gB_analysis;
+    QGridLayout *gridLayout_4;
+    QVBoxLayout *verticalLayout_7;
+    QLabel *l_analysis_fileName;
+    QLabel *l_analysis_count_pair;
+    QLabel *l_analysis_count_input;
+    QLabel *l_analysis_count_output;
+    QVBoxLayout *verticalLayout_6;
+    QLineEdit *lE_analysis_fileName;
+    QLineEdit *lE_analysis_count_pair;
+    QLineEdit *lE_analysis_count_input;
+    QLineEdit *lE_analysis_count_output;
+    QPushButton *pB_load_sample;
+    QGroupBox *gB_graphic_N;
+    QTabWidget *tW_grapfics;
     QGroupBox *gB_training;
     QWidget *layoutWidget;
     QVBoxLayout *verticalLayout;
@@ -65,22 +82,6 @@ public:
     QLineEdit *lineEdit;
     QLabel *label_2;
     QLineEdit *lineEdit_2;
-    QGroupBox *gB_training_set;
-    QGridLayout *gridLayout_12;
-    QGroupBox *gB_analysis;
-    QGridLayout *gridLayout_4;
-    QVBoxLayout *verticalLayout_7;
-    QLabel *l_analysis_fileName;
-    QLabel *l_analysis_count_pair;
-    QLabel *l_analysis_count_input;
-    QLabel *l_analysis_count_output;
-    QVBoxLayout *verticalLayout_6;
-    QLineEdit *lE_analysis_fileName;
-    QLineEdit *lE_analysis_count_pair;
-    QLineEdit *lE_analysis_count_input;
-    QLineEdit *lE_analysis_count_output;
-    QPushButton *pB_load_sample;
-    QGroupBox *gB_graphic_N;
     QGroupBox *gB_create;
     QGridLayout *gridLayout_6;
     QGridLayout *gridLayout;
@@ -115,7 +116,7 @@ public:
     QComboBox *cmbB_fun_activation_outputs;
     QCheckBox *cB_load_from_file;
     QPushButton *pB_create;
-    QTabWidget *tW_grapfics;
+    QCheckBox *cB_zoom;
     QMenuBar *menubar;
     QStatusBar *statusbar;
 
@@ -123,17 +124,118 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QString::fromUtf8("MainWindow"));
-        MainWindow->resize(1295, 665);
+        MainWindow->resize(1313, 839);
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
         gridLayout_9 = new QGridLayout(centralwidget);
         gridLayout_9->setObjectName(QString::fromUtf8("gridLayout_9"));
-        gB_training = new QGroupBox(centralwidget);
-        gB_training->setObjectName(QString::fromUtf8("gB_training"));
-        gB_training->setEnabled(false);
+        gB_training_set = new QGroupBox(centralwidget);
+        gB_training_set->setObjectName(QString::fromUtf8("gB_training_set"));
+        gB_training_set->setEnabled(false);
         QSizePolicy sizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
+        sizePolicy.setHeightForWidth(gB_training_set->sizePolicy().hasHeightForWidth());
+        gB_training_set->setSizePolicy(sizePolicy);
+        gridLayout_12 = new QGridLayout(gB_training_set);
+        gridLayout_12->setObjectName(QString::fromUtf8("gridLayout_12"));
+        gB_analysis = new QGroupBox(gB_training_set);
+        gB_analysis->setObjectName(QString::fromUtf8("gB_analysis"));
+        gridLayout_4 = new QGridLayout(gB_analysis);
+        gridLayout_4->setObjectName(QString::fromUtf8("gridLayout_4"));
+        verticalLayout_7 = new QVBoxLayout();
+        verticalLayout_7->setObjectName(QString::fromUtf8("verticalLayout_7"));
+        l_analysis_fileName = new QLabel(gB_analysis);
+        l_analysis_fileName->setObjectName(QString::fromUtf8("l_analysis_fileName"));
+
+        verticalLayout_7->addWidget(l_analysis_fileName);
+
+        l_analysis_count_pair = new QLabel(gB_analysis);
+        l_analysis_count_pair->setObjectName(QString::fromUtf8("l_analysis_count_pair"));
+        QSizePolicy sizePolicy1(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
+        sizePolicy1.setHorizontalStretch(0);
+        sizePolicy1.setVerticalStretch(0);
+        sizePolicy1.setHeightForWidth(l_analysis_count_pair->sizePolicy().hasHeightForWidth());
+        l_analysis_count_pair->setSizePolicy(sizePolicy1);
+
+        verticalLayout_7->addWidget(l_analysis_count_pair);
+
+        l_analysis_count_input = new QLabel(gB_analysis);
+        l_analysis_count_input->setObjectName(QString::fromUtf8("l_analysis_count_input"));
+        sizePolicy1.setHeightForWidth(l_analysis_count_input->sizePolicy().hasHeightForWidth());
+        l_analysis_count_input->setSizePolicy(sizePolicy1);
+
+        verticalLayout_7->addWidget(l_analysis_count_input);
+
+        l_analysis_count_output = new QLabel(gB_analysis);
+        l_analysis_count_output->setObjectName(QString::fromUtf8("l_analysis_count_output"));
+        sizePolicy1.setHeightForWidth(l_analysis_count_output->sizePolicy().hasHeightForWidth());
+        l_analysis_count_output->setSizePolicy(sizePolicy1);
+
+        verticalLayout_7->addWidget(l_analysis_count_output);
+
+
+        gridLayout_4->addLayout(verticalLayout_7, 0, 0, 1, 1);
+
+        verticalLayout_6 = new QVBoxLayout();
+        verticalLayout_6->setObjectName(QString::fromUtf8("verticalLayout_6"));
+        lE_analysis_fileName = new QLineEdit(gB_analysis);
+        lE_analysis_fileName->setObjectName(QString::fromUtf8("lE_analysis_fileName"));
+
+        verticalLayout_6->addWidget(lE_analysis_fileName);
+
+        lE_analysis_count_pair = new QLineEdit(gB_analysis);
+        lE_analysis_count_pair->setObjectName(QString::fromUtf8("lE_analysis_count_pair"));
+        QSizePolicy sizePolicy2(QSizePolicy::Maximum, QSizePolicy::Fixed);
+        sizePolicy2.setHorizontalStretch(0);
+        sizePolicy2.setVerticalStretch(0);
+        sizePolicy2.setHeightForWidth(lE_analysis_count_pair->sizePolicy().hasHeightForWidth());
+        lE_analysis_count_pair->setSizePolicy(sizePolicy2);
+
+        verticalLayout_6->addWidget(lE_analysis_count_pair);
+
+        lE_analysis_count_input = new QLineEdit(gB_analysis);
+        lE_analysis_count_input->setObjectName(QString::fromUtf8("lE_analysis_count_input"));
+
+        verticalLayout_6->addWidget(lE_analysis_count_input);
+
+        lE_analysis_count_output = new QLineEdit(gB_analysis);
+        lE_analysis_count_output->setObjectName(QString::fromUtf8("lE_analysis_count_output"));
+
+        verticalLayout_6->addWidget(lE_analysis_count_output);
+
+
+        gridLayout_4->addLayout(verticalLayout_6, 0, 1, 1, 1);
+
+
+        gridLayout_12->addWidget(gB_analysis, 1, 1, 1, 1);
+
+        pB_load_sample = new QPushButton(gB_training_set);
+        pB_load_sample->setObjectName(QString::fromUtf8("pB_load_sample"));
+
+        gridLayout_12->addWidget(pB_load_sample, 0, 0, 1, 2);
+
+        gB_graphic_N = new QGroupBox(gB_training_set);
+        gB_graphic_N->setObjectName(QString::fromUtf8("gB_graphic_N"));
+
+        gridLayout_12->addWidget(gB_graphic_N, 2, 1, 1, 1);
+
+
+        gridLayout_9->addWidget(gB_training_set, 0, 1, 1, 1);
+
+        tW_grapfics = new QTabWidget(centralwidget);
+        tW_grapfics->setObjectName(QString::fromUtf8("tW_grapfics"));
+        QSizePolicy sizePolicy3(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
+        sizePolicy3.setHorizontalStretch(0);
+        sizePolicy3.setVerticalStretch(0);
+        sizePolicy3.setHeightForWidth(tW_grapfics->sizePolicy().hasHeightForWidth());
+        tW_grapfics->setSizePolicy(sizePolicy3);
+
+        gridLayout_9->addWidget(tW_grapfics, 2, 0, 1, 3);
+
+        gB_training = new QGroupBox(centralwidget);
+        gB_training->setObjectName(QString::fromUtf8("gB_training"));
+        gB_training->setEnabled(false);
         sizePolicy.setHeightForWidth(gB_training->sizePolicy().hasHeightForWidth());
         gB_training->setSizePolicy(sizePolicy);
         layoutWidget = new QWidget(gB_training);
@@ -144,11 +246,11 @@ public:
         verticalLayout->setContentsMargins(0, 0, 0, 0);
         gB_stopEducate = new QGroupBox(layoutWidget);
         gB_stopEducate->setObjectName(QString::fromUtf8("gB_stopEducate"));
-        QSizePolicy sizePolicy1(QSizePolicy::Expanding, QSizePolicy::Fixed);
-        sizePolicy1.setHorizontalStretch(0);
-        sizePolicy1.setVerticalStretch(0);
-        sizePolicy1.setHeightForWidth(gB_stopEducate->sizePolicy().hasHeightForWidth());
-        gB_stopEducate->setSizePolicy(sizePolicy1);
+        QSizePolicy sizePolicy4(QSizePolicy::Expanding, QSizePolicy::Fixed);
+        sizePolicy4.setHorizontalStretch(0);
+        sizePolicy4.setVerticalStretch(0);
+        sizePolicy4.setHeightForWidth(gB_stopEducate->sizePolicy().hasHeightForWidth());
+        gB_stopEducate->setSizePolicy(sizePolicy4);
         gridLayout_3 = new QGridLayout(gB_stopEducate);
         gridLayout_3->setObjectName(QString::fromUtf8("gridLayout_3"));
         rB_stop_bit = new QRadioButton(gB_stopEducate);
@@ -179,21 +281,18 @@ public:
         horizontalLayout_3->setObjectName(QString::fromUtf8("horizontalLayout_3"));
         l_max_count_eras = new QLabel(layoutWidget_2);
         l_max_count_eras->setObjectName(QString::fromUtf8("l_max_count_eras"));
-        QSizePolicy sizePolicy2(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
-        sizePolicy2.setHorizontalStretch(0);
-        sizePolicy2.setVerticalStretch(0);
-        sizePolicy2.setHeightForWidth(l_max_count_eras->sizePolicy().hasHeightForWidth());
-        l_max_count_eras->setSizePolicy(sizePolicy2);
+        sizePolicy1.setHeightForWidth(l_max_count_eras->sizePolicy().hasHeightForWidth());
+        l_max_count_eras->setSizePolicy(sizePolicy1);
 
         horizontalLayout_3->addWidget(l_max_count_eras);
 
         lE_max_count_eras = new QLineEdit(layoutWidget_2);
         lE_max_count_eras->setObjectName(QString::fromUtf8("lE_max_count_eras"));
-        QSizePolicy sizePolicy3(QSizePolicy::Minimum, QSizePolicy::Fixed);
-        sizePolicy3.setHorizontalStretch(0);
-        sizePolicy3.setVerticalStretch(0);
-        sizePolicy3.setHeightForWidth(lE_max_count_eras->sizePolicy().hasHeightForWidth());
-        lE_max_count_eras->setSizePolicy(sizePolicy3);
+        QSizePolicy sizePolicy5(QSizePolicy::Minimum, QSizePolicy::Fixed);
+        sizePolicy5.setHorizontalStretch(0);
+        sizePolicy5.setVerticalStretch(0);
+        sizePolicy5.setHeightForWidth(lE_max_count_eras->sizePolicy().hasHeightForWidth());
+        lE_max_count_eras->setSizePolicy(sizePolicy5);
 
         horizontalLayout_3->addWidget(lE_max_count_eras);
 
@@ -211,8 +310,8 @@ public:
 
         lE_ouput_report_eras = new QLineEdit(layoutWidget_2);
         lE_ouput_report_eras->setObjectName(QString::fromUtf8("lE_ouput_report_eras"));
-        sizePolicy3.setHeightForWidth(lE_ouput_report_eras->sizePolicy().hasHeightForWidth());
-        lE_ouput_report_eras->setSizePolicy(sizePolicy3);
+        sizePolicy5.setHeightForWidth(lE_ouput_report_eras->sizePolicy().hasHeightForWidth());
+        lE_ouput_report_eras->setSizePolicy(sizePolicy5);
 
         horizontalLayout_2->addWidget(lE_ouput_report_eras);
 
@@ -230,8 +329,8 @@ public:
 
         lE_learning_error_value = new QLineEdit(layoutWidget_2);
         lE_learning_error_value->setObjectName(QString::fromUtf8("lE_learning_error_value"));
-        sizePolicy3.setHeightForWidth(lE_learning_error_value->sizePolicy().hasHeightForWidth());
-        lE_learning_error_value->setSizePolicy(sizePolicy3);
+        sizePolicy5.setHeightForWidth(lE_learning_error_value->sizePolicy().hasHeightForWidth());
+        lE_learning_error_value->setSizePolicy(sizePolicy5);
 
         horizontalLayout->addWidget(lE_learning_error_value);
 
@@ -241,11 +340,11 @@ public:
         pB_educate = new QPushButton(gB_training);
         pB_educate->setObjectName(QString::fromUtf8("pB_educate"));
         pB_educate->setGeometry(QRect(0, 210, 399, 23));
-        QSizePolicy sizePolicy4(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
-        sizePolicy4.setHorizontalStretch(0);
-        sizePolicy4.setVerticalStretch(0);
-        sizePolicy4.setHeightForWidth(pB_educate->sizePolicy().hasHeightForWidth());
-        pB_educate->setSizePolicy(sizePolicy4);
+        QSizePolicy sizePolicy6(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
+        sizePolicy6.setHorizontalStretch(0);
+        sizePolicy6.setVerticalStretch(0);
+        sizePolicy6.setHeightForWidth(pB_educate->sizePolicy().hasHeightForWidth());
+        pB_educate->setSizePolicy(sizePolicy6);
         checkBox = new QCheckBox(gB_training);
         checkBox->setObjectName(QString::fromUtf8("checkBox"));
         checkBox->setGeometry(QRect(10, 240, 201, 17));
@@ -281,94 +380,6 @@ public:
 
         gridLayout_9->addWidget(gB_training, 0, 2, 1, 1);
 
-        gB_training_set = new QGroupBox(centralwidget);
-        gB_training_set->setObjectName(QString::fromUtf8("gB_training_set"));
-        gB_training_set->setEnabled(false);
-        sizePolicy.setHeightForWidth(gB_training_set->sizePolicy().hasHeightForWidth());
-        gB_training_set->setSizePolicy(sizePolicy);
-        gridLayout_12 = new QGridLayout(gB_training_set);
-        gridLayout_12->setObjectName(QString::fromUtf8("gridLayout_12"));
-        gB_analysis = new QGroupBox(gB_training_set);
-        gB_analysis->setObjectName(QString::fromUtf8("gB_analysis"));
-        gridLayout_4 = new QGridLayout(gB_analysis);
-        gridLayout_4->setObjectName(QString::fromUtf8("gridLayout_4"));
-        verticalLayout_7 = new QVBoxLayout();
-        verticalLayout_7->setObjectName(QString::fromUtf8("verticalLayout_7"));
-        l_analysis_fileName = new QLabel(gB_analysis);
-        l_analysis_fileName->setObjectName(QString::fromUtf8("l_analysis_fileName"));
-
-        verticalLayout_7->addWidget(l_analysis_fileName);
-
-        l_analysis_count_pair = new QLabel(gB_analysis);
-        l_analysis_count_pair->setObjectName(QString::fromUtf8("l_analysis_count_pair"));
-        sizePolicy2.setHeightForWidth(l_analysis_count_pair->sizePolicy().hasHeightForWidth());
-        l_analysis_count_pair->setSizePolicy(sizePolicy2);
-
-        verticalLayout_7->addWidget(l_analysis_count_pair);
-
-        l_analysis_count_input = new QLabel(gB_analysis);
-        l_analysis_count_input->setObjectName(QString::fromUtf8("l_analysis_count_input"));
-        sizePolicy2.setHeightForWidth(l_analysis_count_input->sizePolicy().hasHeightForWidth());
-        l_analysis_count_input->setSizePolicy(sizePolicy2);
-
-        verticalLayout_7->addWidget(l_analysis_count_input);
-
-        l_analysis_count_output = new QLabel(gB_analysis);
-        l_analysis_count_output->setObjectName(QString::fromUtf8("l_analysis_count_output"));
-        sizePolicy2.setHeightForWidth(l_analysis_count_output->sizePolicy().hasHeightForWidth());
-        l_analysis_count_output->setSizePolicy(sizePolicy2);
-
-        verticalLayout_7->addWidget(l_analysis_count_output);
-
-
-        gridLayout_4->addLayout(verticalLayout_7, 0, 0, 1, 1);
-
-        verticalLayout_6 = new QVBoxLayout();
-        verticalLayout_6->setObjectName(QString::fromUtf8("verticalLayout_6"));
-        lE_analysis_fileName = new QLineEdit(gB_analysis);
-        lE_analysis_fileName->setObjectName(QString::fromUtf8("lE_analysis_fileName"));
-
-        verticalLayout_6->addWidget(lE_analysis_fileName);
-
-        lE_analysis_count_pair = new QLineEdit(gB_analysis);
-        lE_analysis_count_pair->setObjectName(QString::fromUtf8("lE_analysis_count_pair"));
-        QSizePolicy sizePolicy5(QSizePolicy::Maximum, QSizePolicy::Fixed);
-        sizePolicy5.setHorizontalStretch(0);
-        sizePolicy5.setVerticalStretch(0);
-        sizePolicy5.setHeightForWidth(lE_analysis_count_pair->sizePolicy().hasHeightForWidth());
-        lE_analysis_count_pair->setSizePolicy(sizePolicy5);
-
-        verticalLayout_6->addWidget(lE_analysis_count_pair);
-
-        lE_analysis_count_input = new QLineEdit(gB_analysis);
-        lE_analysis_count_input->setObjectName(QString::fromUtf8("lE_analysis_count_input"));
-
-        verticalLayout_6->addWidget(lE_analysis_count_input);
-
-        lE_analysis_count_output = new QLineEdit(gB_analysis);
-        lE_analysis_count_output->setObjectName(QString::fromUtf8("lE_analysis_count_output"));
-
-        verticalLayout_6->addWidget(lE_analysis_count_output);
-
-
-        gridLayout_4->addLayout(verticalLayout_6, 0, 1, 1, 1);
-
-
-        gridLayout_12->addWidget(gB_analysis, 1, 1, 1, 1);
-
-        pB_load_sample = new QPushButton(gB_training_set);
-        pB_load_sample->setObjectName(QString::fromUtf8("pB_load_sample"));
-
-        gridLayout_12->addWidget(pB_load_sample, 0, 0, 1, 2);
-
-        gB_graphic_N = new QGroupBox(gB_training_set);
-        gB_graphic_N->setObjectName(QString::fromUtf8("gB_graphic_N"));
-
-        gridLayout_12->addWidget(gB_graphic_N, 2, 1, 1, 1);
-
-
-        gridLayout_9->addWidget(gB_training_set, 0, 1, 1, 1);
-
         gB_create = new QGroupBox(centralwidget);
         gB_create->setObjectName(QString::fromUtf8("gB_create"));
         sizePolicy.setHeightForWidth(gB_create->sizePolicy().hasHeightForWidth());
@@ -379,8 +390,8 @@ public:
         gridLayout->setObjectName(QString::fromUtf8("gridLayout"));
         l_number_input = new QLabel(gB_create);
         l_number_input->setObjectName(QString::fromUtf8("l_number_input"));
-        sizePolicy2.setHeightForWidth(l_number_input->sizePolicy().hasHeightForWidth());
-        l_number_input->setSizePolicy(sizePolicy2);
+        sizePolicy1.setHeightForWidth(l_number_input->sizePolicy().hasHeightForWidth());
+        l_number_input->setSizePolicy(sizePolicy1);
         l_number_input->setMinimumSize(QSize(100, 15));
 
         gridLayout->addWidget(l_number_input, 0, 0, 1, 1);
@@ -393,8 +404,8 @@ public:
 
         l_number_output = new QLabel(gB_create);
         l_number_output->setObjectName(QString::fromUtf8("l_number_output"));
-        sizePolicy2.setHeightForWidth(l_number_output->sizePolicy().hasHeightForWidth());
-        l_number_output->setSizePolicy(sizePolicy2);
+        sizePolicy1.setHeightForWidth(l_number_output->sizePolicy().hasHeightForWidth());
+        l_number_output->setSizePolicy(sizePolicy1);
         l_number_output->setMinimumSize(QSize(100, 15));
 
         gridLayout->addWidget(l_number_output, 1, 0, 1, 1);
@@ -407,8 +418,8 @@ public:
 
         l_number_layers = new QLabel(gB_create);
         l_number_layers->setObjectName(QString::fromUtf8("l_number_layers"));
-        sizePolicy2.setHeightForWidth(l_number_layers->sizePolicy().hasHeightForWidth());
-        l_number_layers->setSizePolicy(sizePolicy2);
+        sizePolicy1.setHeightForWidth(l_number_layers->sizePolicy().hasHeightForWidth());
+        l_number_layers->setSizePolicy(sizePolicy1);
         l_number_layers->setMinimumSize(QSize(100, 15));
 
         gridLayout->addWidget(l_number_layers, 2, 0, 1, 1);
@@ -448,32 +459,32 @@ public:
         gridLayout_2->setObjectName(QString::fromUtf8("gridLayout_2"));
         cmbB_select_neurons = new QComboBox(page);
         cmbB_select_neurons->setObjectName(QString::fromUtf8("cmbB_select_neurons"));
-        QSizePolicy sizePolicy6(QSizePolicy::MinimumExpanding, QSizePolicy::Minimum);
-        sizePolicy6.setHorizontalStretch(0);
-        sizePolicy6.setVerticalStretch(0);
-        sizePolicy6.setHeightForWidth(cmbB_select_neurons->sizePolicy().hasHeightForWidth());
-        cmbB_select_neurons->setSizePolicy(sizePolicy6);
+        QSizePolicy sizePolicy7(QSizePolicy::MinimumExpanding, QSizePolicy::Minimum);
+        sizePolicy7.setHorizontalStretch(0);
+        sizePolicy7.setVerticalStretch(0);
+        sizePolicy7.setHeightForWidth(cmbB_select_neurons->sizePolicy().hasHeightForWidth());
+        cmbB_select_neurons->setSizePolicy(sizePolicy7);
 
         gridLayout_2->addWidget(cmbB_select_neurons, 1, 0, 1, 1);
 
         l_number_neurons = new QLabel(page);
         l_number_neurons->setObjectName(QString::fromUtf8("l_number_neurons"));
-        QSizePolicy sizePolicy7(QSizePolicy::Preferred, QSizePolicy::Minimum);
-        sizePolicy7.setHorizontalStretch(0);
-        sizePolicy7.setVerticalStretch(0);
-        sizePolicy7.setHeightForWidth(l_number_neurons->sizePolicy().hasHeightForWidth());
-        l_number_neurons->setSizePolicy(sizePolicy7);
+        QSizePolicy sizePolicy8(QSizePolicy::Preferred, QSizePolicy::Minimum);
+        sizePolicy8.setHorizontalStretch(0);
+        sizePolicy8.setVerticalStretch(0);
+        sizePolicy8.setHeightForWidth(l_number_neurons->sizePolicy().hasHeightForWidth());
+        l_number_neurons->setSizePolicy(sizePolicy8);
         l_number_neurons->setAlignment(Qt::AlignCenter);
 
         gridLayout_2->addWidget(l_number_neurons, 0, 0, 1, 2);
 
         sB_number_neurons = new QSpinBox(page);
         sB_number_neurons->setObjectName(QString::fromUtf8("sB_number_neurons"));
-        QSizePolicy sizePolicy8(QSizePolicy::Minimum, QSizePolicy::Minimum);
-        sizePolicy8.setHorizontalStretch(0);
-        sizePolicy8.setVerticalStretch(0);
-        sizePolicy8.setHeightForWidth(sB_number_neurons->sizePolicy().hasHeightForWidth());
-        sB_number_neurons->setSizePolicy(sizePolicy8);
+        QSizePolicy sizePolicy9(QSizePolicy::Minimum, QSizePolicy::Minimum);
+        sizePolicy9.setHorizontalStretch(0);
+        sizePolicy9.setVerticalStretch(0);
+        sizePolicy9.setHeightForWidth(sB_number_neurons->sizePolicy().hasHeightForWidth());
+        sB_number_neurons->setSizePolicy(sizePolicy9);
         sB_number_neurons->setWrapping(false);
         sB_number_neurons->setReadOnly(false);
         sB_number_neurons->setKeyboardTracking(true);
@@ -492,15 +503,15 @@ public:
         horizontalLayout_6->setObjectName(QString::fromUtf8("horizontalLayout_6"));
         l_all_layers_neuron = new QLabel(page_2);
         l_all_layers_neuron->setObjectName(QString::fromUtf8("l_all_layers_neuron"));
-        sizePolicy2.setHeightForWidth(l_all_layers_neuron->sizePolicy().hasHeightForWidth());
-        l_all_layers_neuron->setSizePolicy(sizePolicy2);
+        sizePolicy1.setHeightForWidth(l_all_layers_neuron->sizePolicy().hasHeightForWidth());
+        l_all_layers_neuron->setSizePolicy(sizePolicy1);
 
         horizontalLayout_6->addWidget(l_all_layers_neuron);
 
         sB_all_neurons = new QSpinBox(page_2);
         sB_all_neurons->setObjectName(QString::fromUtf8("sB_all_neurons"));
-        sizePolicy5.setHeightForWidth(sB_all_neurons->sizePolicy().hasHeightForWidth());
-        sB_all_neurons->setSizePolicy(sizePolicy5);
+        sizePolicy2.setHeightForWidth(sB_all_neurons->sizePolicy().hasHeightForWidth());
+        sB_all_neurons->setSizePolicy(sizePolicy2);
         sB_all_neurons->setValue(0);
 
         horizontalLayout_6->addWidget(sB_all_neurons);
@@ -525,8 +536,8 @@ public:
         horizontalLayout_5->setObjectName(QString::fromUtf8("horizontalLayout_5"));
         l_fun_activation_layers = new QLabel(gB_create);
         l_fun_activation_layers->setObjectName(QString::fromUtf8("l_fun_activation_layers"));
-        sizePolicy6.setHeightForWidth(l_fun_activation_layers->sizePolicy().hasHeightForWidth());
-        l_fun_activation_layers->setSizePolicy(sizePolicy6);
+        sizePolicy7.setHeightForWidth(l_fun_activation_layers->sizePolicy().hasHeightForWidth());
+        l_fun_activation_layers->setSizePolicy(sizePolicy7);
 
         horizontalLayout_5->addWidget(l_fun_activation_layers);
 
@@ -541,11 +552,11 @@ public:
         cmbB_fun_activation_layers->addItem(QString());
         cmbB_fun_activation_layers->addItem(QString());
         cmbB_fun_activation_layers->setObjectName(QString::fromUtf8("cmbB_fun_activation_layers"));
-        QSizePolicy sizePolicy9(QSizePolicy::Fixed, QSizePolicy::Fixed);
-        sizePolicy9.setHorizontalStretch(0);
-        sizePolicy9.setVerticalStretch(0);
-        sizePolicy9.setHeightForWidth(cmbB_fun_activation_layers->sizePolicy().hasHeightForWidth());
-        cmbB_fun_activation_layers->setSizePolicy(sizePolicy9);
+        QSizePolicy sizePolicy10(QSizePolicy::Fixed, QSizePolicy::Fixed);
+        sizePolicy10.setHorizontalStretch(0);
+        sizePolicy10.setVerticalStretch(0);
+        sizePolicy10.setHeightForWidth(cmbB_fun_activation_layers->sizePolicy().hasHeightForWidth());
+        cmbB_fun_activation_layers->setSizePolicy(sizePolicy10);
         cmbB_fun_activation_layers->setEditable(false);
         cmbB_fun_activation_layers->setFrame(true);
 
@@ -558,8 +569,8 @@ public:
         horizontalLayout_4->setObjectName(QString::fromUtf8("horizontalLayout_4"));
         l_fun_activation_outputs = new QLabel(gB_create);
         l_fun_activation_outputs->setObjectName(QString::fromUtf8("l_fun_activation_outputs"));
-        sizePolicy4.setHeightForWidth(l_fun_activation_outputs->sizePolicy().hasHeightForWidth());
-        l_fun_activation_outputs->setSizePolicy(sizePolicy4);
+        sizePolicy6.setHeightForWidth(l_fun_activation_outputs->sizePolicy().hasHeightForWidth());
+        l_fun_activation_outputs->setSizePolicy(sizePolicy6);
 
         horizontalLayout_4->addWidget(l_fun_activation_outputs);
 
@@ -590,28 +601,23 @@ public:
 
         pB_create = new QPushButton(gB_create);
         pB_create->setObjectName(QString::fromUtf8("pB_create"));
-        sizePolicy1.setHeightForWidth(pB_create->sizePolicy().hasHeightForWidth());
-        pB_create->setSizePolicy(sizePolicy1);
+        sizePolicy4.setHeightForWidth(pB_create->sizePolicy().hasHeightForWidth());
+        pB_create->setSizePolicy(sizePolicy4);
 
         gridLayout_6->addWidget(pB_create, 5, 0, 1, 2);
 
 
         gridLayout_9->addWidget(gB_create, 0, 0, 1, 1);
 
-        tW_grapfics = new QTabWidget(centralwidget);
-        tW_grapfics->setObjectName(QString::fromUtf8("tW_grapfics"));
-        QSizePolicy sizePolicy10(QSizePolicy::MinimumExpanding, QSizePolicy::Expanding);
-        sizePolicy10.setHorizontalStretch(0);
-        sizePolicy10.setVerticalStretch(0);
-        sizePolicy10.setHeightForWidth(tW_grapfics->sizePolicy().hasHeightForWidth());
-        tW_grapfics->setSizePolicy(sizePolicy10);
+        cB_zoom = new QCheckBox(centralwidget);
+        cB_zoom->setObjectName(QString::fromUtf8("cB_zoom"));
 
-        gridLayout_9->addWidget(tW_grapfics, 1, 0, 1, 3);
+        gridLayout_9->addWidget(cB_zoom, 1, 0, 1, 1);
 
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName(QString::fromUtf8("menubar"));
-        menubar->setGeometry(QRect(0, 0, 1295, 21));
+        menubar->setGeometry(QRect(0, 0, 1313, 21));
         MainWindow->setMenuBar(menubar);
         statusbar = new QStatusBar(MainWindow);
         statusbar->setObjectName(QString::fromUtf8("statusbar"));
@@ -619,9 +625,9 @@ public:
 
         retranslateUi(MainWindow);
 
+        tW_grapfics->setCurrentIndex(-1);
         sW_neurons->setCurrentIndex(1);
         cmbB_fun_activation_layers->setCurrentIndex(0);
-        tW_grapfics->setCurrentIndex(-1);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -630,6 +636,14 @@ public:
     void retranslateUi(QMainWindow *MainWindow)
     {
         MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "MainWindow", nullptr));
+        gB_training_set->setTitle(QCoreApplication::translate("MainWindow", "\320\236\320\261\321\203\321\207\320\260\321\216\321\211\320\260\321\217 \320\262\321\213\320\261\320\276\321\200\320\272\320\260", nullptr));
+        gB_analysis->setTitle(QCoreApplication::translate("MainWindow", "\320\220\320\275\320\260\320\273\320\270\320\267 \320\262\321\213\320\261\320\276\321\200\320\272\320\270", nullptr));
+        l_analysis_fileName->setText(QCoreApplication::translate("MainWindow", "\320\230\320\274\321\217 \321\204\320\260\320\271\320\273\320\260", nullptr));
+        l_analysis_count_pair->setText(QCoreApplication::translate("MainWindow", "\320\232\320\276\320\273\320\270\321\207\320\265\321\201\321\202\320\262\320\276 \320\277\320\260\321\200", nullptr));
+        l_analysis_count_input->setText(QCoreApplication::translate("MainWindow", "\320\232\320\276\320\273\320\270\321\207\320\265\321\201\321\202\320\262\320\276 \320\262\321\205\320\276\320\264\320\276\320\262", nullptr));
+        l_analysis_count_output->setText(QCoreApplication::translate("MainWindow", "\320\232\320\276\320\273\320\270\321\207\320\265\321\201\321\202\320\262\320\276 \320\262\321\213\321\205\320\276\320\264\320\276\320\262", nullptr));
+        pB_load_sample->setText(QCoreApplication::translate("MainWindow", "\320\227\320\260\320\263\321\200\321\203\320\267\320\270\321\202\321\214 \320\276\320\261\321\203\321\207\320\260\321\216\321\211\321\203\321\216 \320\262\321\213\320\261\320\276\321\200\320\272\321\203 (*.train)", nullptr));
+        gB_graphic_N->setTitle(QCoreApplication::translate("MainWindow", "\320\223\321\200\320\260\321\204\320\270\320\272 N", nullptr));
         gB_training->setTitle(QCoreApplication::translate("MainWindow", "\320\236\320\261\321\203\321\207\320\265\320\275\320\270\320\265 \320\230\320\235\320\241", nullptr));
         gB_stopEducate->setTitle(QCoreApplication::translate("MainWindow", "\320\232\321\200\320\270\321\202\320\265\321\200\320\270\320\271 \320\276\321\201\321\202\320\260\320\275\320\276\320\262\320\272\320\270 \320\276\320\261\321\203\321\207\320\265\320\275\320\270\321\217:", nullptr));
         rB_stop_bit->setText(QCoreApplication::translate("MainWindow", "FANN_STOPFUNC_BIT", nullptr));
@@ -643,14 +657,6 @@ public:
         gB_paraneters_subsample->setTitle(QCoreApplication::translate("MainWindow", "\320\237\320\260\321\200\320\260\320\274\320\265\321\202\321\200\321\213 \320\277\320\276\320\264\320\262\321\213\320\261\320\276\321\200\320\272\320\270", nullptr));
         label->setText(QCoreApplication::translate("MainWindow", "\320\230\320\275\321\202\320\262\320\265\321\200\320\260\320\273 \320\277\320\260\321\200, \320\276\321\202:", nullptr));
         label_2->setText(QCoreApplication::translate("MainWindow", "\320\264\320\276:", nullptr));
-        gB_training_set->setTitle(QCoreApplication::translate("MainWindow", "\320\236\320\261\321\203\321\207\320\260\321\216\321\211\320\260\321\217 \320\262\321\213\320\261\320\276\321\200\320\272\320\260", nullptr));
-        gB_analysis->setTitle(QCoreApplication::translate("MainWindow", "\320\220\320\275\320\260\320\273\320\270\320\267 \320\262\321\213\320\261\320\276\321\200\320\272\320\270", nullptr));
-        l_analysis_fileName->setText(QCoreApplication::translate("MainWindow", "\320\230\320\274\321\217 \321\204\320\260\320\271\320\273\320\260", nullptr));
-        l_analysis_count_pair->setText(QCoreApplication::translate("MainWindow", "\320\232\320\276\320\273\320\270\321\207\320\265\321\201\321\202\320\262\320\276 \320\277\320\260\321\200", nullptr));
-        l_analysis_count_input->setText(QCoreApplication::translate("MainWindow", "\320\232\320\276\320\273\320\270\321\207\320\265\321\201\321\202\320\262\320\276 \320\262\321\205\320\276\320\264\320\276\320\262", nullptr));
-        l_analysis_count_output->setText(QCoreApplication::translate("MainWindow", "\320\232\320\276\320\273\320\270\321\207\320\265\321\201\321\202\320\262\320\276 \320\262\321\213\321\205\320\276\320\264\320\276\320\262", nullptr));
-        pB_load_sample->setText(QCoreApplication::translate("MainWindow", "\320\227\320\260\320\263\321\200\321\203\320\267\320\270\321\202\321\214 \320\276\320\261\321\203\321\207\320\260\321\216\321\211\321\203\321\216 \320\262\321\213\320\261\320\276\321\200\320\272\321\203 (*.train)", nullptr));
-        gB_graphic_N->setTitle(QCoreApplication::translate("MainWindow", "\320\223\321\200\320\260\321\204\320\270\320\272 N", nullptr));
         gB_create->setTitle(QCoreApplication::translate("MainWindow", "\320\241\320\276\320\267\320\264\320\260\320\275\320\270\320\265 \320\230\320\235\320\241", nullptr));
         l_number_input->setText(QCoreApplication::translate("MainWindow", "\320\232\320\276\320\273\320\270\321\207\320\265\321\201\321\202\320\262\320\276 \320\262\321\205\320\276\320\264\320\276\320\262:", nullptr));
         l_number_output->setText(QCoreApplication::translate("MainWindow", "\320\232\320\276\320\273\320\270\321\207\320\265\321\201\321\202\320\262\320\276 \320\262\321\213\321\205\320\276\320\264\320\276\320\262:", nullptr));
@@ -682,6 +688,7 @@ public:
 
         cB_load_from_file->setText(QCoreApplication::translate("MainWindow", "\320\227\320\260\320\263\321\200\321\203\320\267\320\270\321\202\321\214 \320\270\320\267 \321\204\320\260\320\271\320\273\320\260 (*.net)", nullptr));
         pB_create->setText(QCoreApplication::translate("MainWindow", "\320\241\320\276\320\267\320\264\320\260\321\202\321\214 \320\230\320\235\320\241", nullptr));
+        cB_zoom->setText(QCoreApplication::translate("MainWindow", "\320\222\320\272\320\273\321\216\321\207\320\270\321\202\321\214 \320\267\321\203\320\274", nullptr));
     } // retranslateUi
 
 };

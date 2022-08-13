@@ -31,6 +31,10 @@ private slots:
   void slotChecked(bool state);
   void on_tW_grapfics_currentChanged(int index);
 
+  void on_checkBox_stateChanged(int arg1);
+
+  void on_cB_zoom_stateChanged(int arg1);
+
 private:
   Ui::MainWindow *ui;
   unsigned int num_layers;
