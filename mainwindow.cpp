@@ -155,19 +155,33 @@ void MainWindow::on_pB_load_sample_clicked()
       }
       customPlot->graph(i)->addData(x,y);
       customPlot->graph(i)->setPen(QColor(rand()%255,rand()%255,rand()%255));
-      customPlot->replot();
+
     }
+    customPlot->setObjectName(QString::number(j));
+    customPlot->replot();
+
     ui->tW_grapfics->insertTab(j,customPlot,QString("График %1").arg(j+1));
   }
 
   ui->gB_training->setEnabled(true);
 
+  for(int k = 0; k < ui->tW_grapfics->count(); k++)
+  {
+    QCustomPlot * plot = qobject_cast<QCustomPlot*>(ui->tW_grapfics->widget(k));
+    for(int l = 0; l < plot->graphCount(); l++)
+    {
+      plot->graph(l)->setVisible(l == k);
+      plot->replot();
+
+    }
+  }
   QCustomPlot * plot = qobject_cast<QCustomPlot*>(ui->tW_grapfics->widget(ui->tW_grapfics->currentIndex()));
   for(int i = 0; i < gridLGraphics->count(); i++)
   {
-    QCheckBox *checkBox = qobject_cast<QCheckBox *> (gridLGraphics->itemAt(i)->widget());
-    checkBox->setChecked(plot->graph(i)->visible());
+    QCheckBox *box = qobject_cast<QCheckBox*>(gridLGraphics->itemAt(i)->widget());
+    box->setChecked(plot->graph(i)->visible());
   }
+
 }
 
 
