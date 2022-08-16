@@ -76,22 +76,16 @@ public:
     QPushButton *pB_educate;
     QCheckBox *checkBox;
     QGroupBox *gB_paraneters_subsample;
-    QWidget *layoutWidget1;
+    QGridLayout *gridLayout_8;
     QHBoxLayout *horizontalLayout_7;
-    QLabel *label;
-    QLineEdit *lineEdit;
-    QLabel *label_2;
-    QLineEdit *lineEdit_2;
+    QLabel *l_interval_from;
+    QLineEdit *lE_interval_from;
+    QLabel *l_interval_before;
+    QLineEdit *lE_interval_before;
     QGroupBox *gB_create;
     QGridLayout *gridLayout_6;
-    QGridLayout *gridLayout;
-    QLabel *l_number_input;
-    QSpinBox *sB_number_input;
-    QLabel *l_number_output;
-    QSpinBox *sB_number_output;
-    QLabel *l_number_layers;
-    QSpinBox *sB_number_layers;
-    QSpacerItem *verticalSpacer_2;
+    QPushButton *pB_create;
+    QCheckBox *cB_load_from_file;
     QVBoxLayout *verticalLayout_5;
     QCheckBox *cB_all_or_alone;
     QStackedWidget *sW_neurons;
@@ -106,7 +100,6 @@ public:
     QHBoxLayout *horizontalLayout_6;
     QLabel *l_all_layers_neuron;
     QSpinBox *sB_all_neurons;
-    QSpacerItem *verticalSpacer;
     QVBoxLayout *verticalLayout_4;
     QHBoxLayout *horizontalLayout_5;
     QLabel *l_fun_activation_layers;
@@ -114,8 +107,14 @@ public:
     QHBoxLayout *horizontalLayout_4;
     QLabel *l_fun_activation_outputs;
     QComboBox *cmbB_fun_activation_outputs;
-    QCheckBox *cB_load_from_file;
-    QPushButton *pB_create;
+    QGridLayout *gridLayout;
+    QLabel *l_number_input;
+    QSpinBox *sB_number_input;
+    QLabel *l_number_output;
+    QSpinBox *sB_number_output;
+    QLabel *l_number_layers;
+    QSpinBox *sB_number_layers;
+    QSpacerItem *verticalSpacer;
     QCheckBox *cB_zoom;
     QMenuBar *menubar;
     QStatusBar *statusbar;
@@ -339,6 +338,7 @@ public:
 
         pB_educate = new QPushButton(gB_training);
         pB_educate->setObjectName(QString::fromUtf8("pB_educate"));
+        pB_educate->setEnabled(false);
         pB_educate->setGeometry(QRect(0, 210, 399, 23));
         QSizePolicy sizePolicy6(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
         sizePolicy6.setHorizontalStretch(0);
@@ -350,32 +350,34 @@ public:
         checkBox->setGeometry(QRect(10, 240, 201, 17));
         gB_paraneters_subsample = new QGroupBox(gB_training);
         gB_paraneters_subsample->setObjectName(QString::fromUtf8("gB_paraneters_subsample"));
-        gB_paraneters_subsample->setGeometry(QRect(0, 260, 411, 131));
-        layoutWidget1 = new QWidget(gB_paraneters_subsample);
-        layoutWidget1->setObjectName(QString::fromUtf8("layoutWidget1"));
-        layoutWidget1->setGeometry(QRect(20, 30, 380, 22));
-        horizontalLayout_7 = new QHBoxLayout(layoutWidget1);
+        gB_paraneters_subsample->setEnabled(false);
+        gB_paraneters_subsample->setGeometry(QRect(0, 260, 416, 55));
+        gridLayout_8 = new QGridLayout(gB_paraneters_subsample);
+        gridLayout_8->setObjectName(QString::fromUtf8("gridLayout_8"));
+        horizontalLayout_7 = new QHBoxLayout();
         horizontalLayout_7->setObjectName(QString::fromUtf8("horizontalLayout_7"));
-        horizontalLayout_7->setContentsMargins(0, 0, 0, 0);
-        label = new QLabel(layoutWidget1);
-        label->setObjectName(QString::fromUtf8("label"));
+        l_interval_from = new QLabel(gB_paraneters_subsample);
+        l_interval_from->setObjectName(QString::fromUtf8("l_interval_from"));
 
-        horizontalLayout_7->addWidget(label);
+        horizontalLayout_7->addWidget(l_interval_from);
 
-        lineEdit = new QLineEdit(layoutWidget1);
-        lineEdit->setObjectName(QString::fromUtf8("lineEdit"));
+        lE_interval_from = new QLineEdit(gB_paraneters_subsample);
+        lE_interval_from->setObjectName(QString::fromUtf8("lE_interval_from"));
 
-        horizontalLayout_7->addWidget(lineEdit);
+        horizontalLayout_7->addWidget(lE_interval_from);
 
-        label_2 = new QLabel(layoutWidget1);
-        label_2->setObjectName(QString::fromUtf8("label_2"));
+        l_interval_before = new QLabel(gB_paraneters_subsample);
+        l_interval_before->setObjectName(QString::fromUtf8("l_interval_before"));
 
-        horizontalLayout_7->addWidget(label_2);
+        horizontalLayout_7->addWidget(l_interval_before);
 
-        lineEdit_2 = new QLineEdit(layoutWidget1);
-        lineEdit_2->setObjectName(QString::fromUtf8("lineEdit_2"));
+        lE_interval_before = new QLineEdit(gB_paraneters_subsample);
+        lE_interval_before->setObjectName(QString::fromUtf8("lE_interval_before"));
 
-        horizontalLayout_7->addWidget(lineEdit_2);
+        horizontalLayout_7->addWidget(lE_interval_before);
+
+
+        gridLayout_8->addLayout(horizontalLayout_7, 0, 0, 1, 1);
 
 
         gridLayout_9->addWidget(gB_training, 0, 2, 1, 1);
@@ -386,61 +388,17 @@ public:
         gB_create->setSizePolicy(sizePolicy);
         gridLayout_6 = new QGridLayout(gB_create);
         gridLayout_6->setObjectName(QString::fromUtf8("gridLayout_6"));
-        gridLayout = new QGridLayout();
-        gridLayout->setObjectName(QString::fromUtf8("gridLayout"));
-        l_number_input = new QLabel(gB_create);
-        l_number_input->setObjectName(QString::fromUtf8("l_number_input"));
-        sizePolicy1.setHeightForWidth(l_number_input->sizePolicy().hasHeightForWidth());
-        l_number_input->setSizePolicy(sizePolicy1);
-        l_number_input->setMinimumSize(QSize(100, 15));
+        pB_create = new QPushButton(gB_create);
+        pB_create->setObjectName(QString::fromUtf8("pB_create"));
+        sizePolicy4.setHeightForWidth(pB_create->sizePolicy().hasHeightForWidth());
+        pB_create->setSizePolicy(sizePolicy4);
 
-        gridLayout->addWidget(l_number_input, 0, 0, 1, 1);
+        gridLayout_6->addWidget(pB_create, 4, 0, 1, 2);
 
-        sB_number_input = new QSpinBox(gB_create);
-        sB_number_input->setObjectName(QString::fromUtf8("sB_number_input"));
-        sB_number_input->setValue(0);
+        cB_load_from_file = new QCheckBox(gB_create);
+        cB_load_from_file->setObjectName(QString::fromUtf8("cB_load_from_file"));
 
-        gridLayout->addWidget(sB_number_input, 0, 1, 1, 1);
-
-        l_number_output = new QLabel(gB_create);
-        l_number_output->setObjectName(QString::fromUtf8("l_number_output"));
-        sizePolicy1.setHeightForWidth(l_number_output->sizePolicy().hasHeightForWidth());
-        l_number_output->setSizePolicy(sizePolicy1);
-        l_number_output->setMinimumSize(QSize(100, 15));
-
-        gridLayout->addWidget(l_number_output, 1, 0, 1, 1);
-
-        sB_number_output = new QSpinBox(gB_create);
-        sB_number_output->setObjectName(QString::fromUtf8("sB_number_output"));
-        sB_number_output->setValue(0);
-
-        gridLayout->addWidget(sB_number_output, 1, 1, 1, 1);
-
-        l_number_layers = new QLabel(gB_create);
-        l_number_layers->setObjectName(QString::fromUtf8("l_number_layers"));
-        sizePolicy1.setHeightForWidth(l_number_layers->sizePolicy().hasHeightForWidth());
-        l_number_layers->setSizePolicy(sizePolicy1);
-        l_number_layers->setMinimumSize(QSize(100, 15));
-
-        gridLayout->addWidget(l_number_layers, 2, 0, 1, 1);
-
-        sB_number_layers = new QSpinBox(gB_create);
-        sB_number_layers->setObjectName(QString::fromUtf8("sB_number_layers"));
-        sB_number_layers->setFrame(true);
-        sB_number_layers->setReadOnly(false);
-        sB_number_layers->setButtonSymbols(QAbstractSpinBox::UpDownArrows);
-        sB_number_layers->setAccelerated(false);
-        sB_number_layers->setSingleStep(1);
-        sB_number_layers->setValue(0);
-
-        gridLayout->addWidget(sB_number_layers, 2, 1, 1, 1);
-
-
-        gridLayout_6->addLayout(gridLayout, 0, 1, 1, 2);
-
-        verticalSpacer_2 = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::MinimumExpanding);
-
-        gridLayout_6->addItem(verticalSpacer_2, 1, 2, 1, 1);
+        gridLayout_6->addWidget(cB_load_from_file, 5, 0, 1, 2);
 
         verticalLayout_5 = new QVBoxLayout();
         verticalLayout_5->setObjectName(QString::fromUtf8("verticalLayout_5"));
@@ -524,11 +482,7 @@ public:
         verticalLayout_5->addWidget(sW_neurons);
 
 
-        gridLayout_6->addLayout(verticalLayout_5, 2, 0, 1, 3);
-
-        verticalSpacer = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::MinimumExpanding);
-
-        gridLayout_6->addItem(verticalSpacer, 3, 0, 1, 1);
+        gridLayout_6->addLayout(verticalLayout_5, 1, 0, 1, 3);
 
         verticalLayout_4 = new QVBoxLayout();
         verticalLayout_4->setObjectName(QString::fromUtf8("verticalLayout_4"));
@@ -592,19 +546,63 @@ public:
         verticalLayout_4->addLayout(horizontalLayout_4);
 
 
-        gridLayout_6->addLayout(verticalLayout_4, 4, 0, 1, 3);
+        gridLayout_6->addLayout(verticalLayout_4, 3, 0, 1, 3);
 
-        cB_load_from_file = new QCheckBox(gB_create);
-        cB_load_from_file->setObjectName(QString::fromUtf8("cB_load_from_file"));
+        gridLayout = new QGridLayout();
+        gridLayout->setObjectName(QString::fromUtf8("gridLayout"));
+        l_number_input = new QLabel(gB_create);
+        l_number_input->setObjectName(QString::fromUtf8("l_number_input"));
+        sizePolicy1.setHeightForWidth(l_number_input->sizePolicy().hasHeightForWidth());
+        l_number_input->setSizePolicy(sizePolicy1);
+        l_number_input->setMinimumSize(QSize(100, 15));
 
-        gridLayout_6->addWidget(cB_load_from_file, 6, 0, 1, 2);
+        gridLayout->addWidget(l_number_input, 0, 0, 1, 1);
 
-        pB_create = new QPushButton(gB_create);
-        pB_create->setObjectName(QString::fromUtf8("pB_create"));
-        sizePolicy4.setHeightForWidth(pB_create->sizePolicy().hasHeightForWidth());
-        pB_create->setSizePolicy(sizePolicy4);
+        sB_number_input = new QSpinBox(gB_create);
+        sB_number_input->setObjectName(QString::fromUtf8("sB_number_input"));
+        sB_number_input->setValue(0);
 
-        gridLayout_6->addWidget(pB_create, 5, 0, 1, 2);
+        gridLayout->addWidget(sB_number_input, 0, 1, 1, 1);
+
+        l_number_output = new QLabel(gB_create);
+        l_number_output->setObjectName(QString::fromUtf8("l_number_output"));
+        sizePolicy1.setHeightForWidth(l_number_output->sizePolicy().hasHeightForWidth());
+        l_number_output->setSizePolicy(sizePolicy1);
+        l_number_output->setMinimumSize(QSize(100, 15));
+
+        gridLayout->addWidget(l_number_output, 1, 0, 1, 1);
+
+        sB_number_output = new QSpinBox(gB_create);
+        sB_number_output->setObjectName(QString::fromUtf8("sB_number_output"));
+        sB_number_output->setValue(0);
+
+        gridLayout->addWidget(sB_number_output, 1, 1, 1, 1);
+
+        l_number_layers = new QLabel(gB_create);
+        l_number_layers->setObjectName(QString::fromUtf8("l_number_layers"));
+        sizePolicy1.setHeightForWidth(l_number_layers->sizePolicy().hasHeightForWidth());
+        l_number_layers->setSizePolicy(sizePolicy1);
+        l_number_layers->setMinimumSize(QSize(100, 15));
+
+        gridLayout->addWidget(l_number_layers, 2, 0, 1, 1);
+
+        sB_number_layers = new QSpinBox(gB_create);
+        sB_number_layers->setObjectName(QString::fromUtf8("sB_number_layers"));
+        sB_number_layers->setFrame(true);
+        sB_number_layers->setReadOnly(false);
+        sB_number_layers->setButtonSymbols(QAbstractSpinBox::UpDownArrows);
+        sB_number_layers->setAccelerated(false);
+        sB_number_layers->setSingleStep(1);
+        sB_number_layers->setValue(0);
+
+        gridLayout->addWidget(sB_number_layers, 2, 1, 1, 1);
+
+
+        gridLayout_6->addLayout(gridLayout, 0, 1, 1, 2);
+
+        verticalSpacer = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::MinimumExpanding);
+
+        gridLayout_6->addItem(verticalSpacer, 6, 0, 1, 1);
 
 
         gridLayout_9->addWidget(gB_create, 0, 0, 1, 1);
@@ -655,12 +653,11 @@ public:
         pB_educate->setText(QCoreApplication::translate("MainWindow", "\320\236\320\261\321\203\321\207\320\270\321\202\321\214 \320\275\320\260 \320\277\320\276\320\273\320\275\320\276\320\271 \320\262\321\213\320\261\320\276\321\200\320\272\320\265", nullptr));
         checkBox->setText(QCoreApplication::translate("MainWindow", "\320\227\320\260\320\264\320\260\321\202\321\214 \321\207\320\260\321\201\321\202\320\270\321\207\320\275\321\203\321\216 \320\262\321\213\320\261\320\276\321\200\320\272\321\203", nullptr));
         gB_paraneters_subsample->setTitle(QCoreApplication::translate("MainWindow", "\320\237\320\260\321\200\320\260\320\274\320\265\321\202\321\200\321\213 \320\277\320\276\320\264\320\262\321\213\320\261\320\276\321\200\320\272\320\270", nullptr));
-        label->setText(QCoreApplication::translate("MainWindow", "\320\230\320\275\321\202\320\262\320\265\321\200\320\260\320\273 \320\277\320\260\321\200, \320\276\321\202:", nullptr));
-        label_2->setText(QCoreApplication::translate("MainWindow", "\320\264\320\276:", nullptr));
+        l_interval_from->setText(QCoreApplication::translate("MainWindow", "\320\230\320\275\321\202\320\262\320\265\321\200\320\260\320\273 \320\277\320\260\321\200, \320\276\321\202:", nullptr));
+        l_interval_before->setText(QCoreApplication::translate("MainWindow", "\320\264\320\276:", nullptr));
         gB_create->setTitle(QCoreApplication::translate("MainWindow", "\320\241\320\276\320\267\320\264\320\260\320\275\320\270\320\265 \320\230\320\235\320\241", nullptr));
-        l_number_input->setText(QCoreApplication::translate("MainWindow", "\320\232\320\276\320\273\320\270\321\207\320\265\321\201\321\202\320\262\320\276 \320\262\321\205\320\276\320\264\320\276\320\262:", nullptr));
-        l_number_output->setText(QCoreApplication::translate("MainWindow", "\320\232\320\276\320\273\320\270\321\207\320\265\321\201\321\202\320\262\320\276 \320\262\321\213\321\205\320\276\320\264\320\276\320\262:", nullptr));
-        l_number_layers->setText(QCoreApplication::translate("MainWindow", "\320\232\320\276\320\273\320\270\321\207\320\265\321\201\321\202\320\262\320\276 \321\201\320\272\321\200\321\213\321\202\321\213\321\205 \321\201\320\273\320\276\320\265\320\262:", nullptr));
+        pB_create->setText(QCoreApplication::translate("MainWindow", "\320\241\320\276\320\267\320\264\320\260\321\202\321\214 \320\230\320\235\320\241", nullptr));
+        cB_load_from_file->setText(QCoreApplication::translate("MainWindow", "\320\227\320\260\320\263\321\200\321\203\320\267\320\270\321\202\321\214 \320\270\320\267 \321\204\320\260\320\271\320\273\320\260 (*.net)", nullptr));
         cB_all_or_alone->setText(QCoreApplication::translate("MainWindow", "\320\227\320\260\320\264\320\260\320\262\320\260\321\202\321\214 \320\272\320\276\320\273\320\270\321\207\320\265\321\201\321\202\320\262\320\276 \320\275\320\265\320\271\321\200\320\276\320\275\320\276\320\262 \320\272\320\260\320\266\320\264\320\276\320\274\321\203 \321\201\320\273\320\276\321\216", nullptr));
         l_number_neurons->setText(QCoreApplication::translate("MainWindow", "\320\232\320\276\320\273\320\270\321\207\320\265\321\201\321\202\320\262\320\276 \320\275\320\265\320\271\321\200\320\276\320\275\320\276\320\262 \320\262:", nullptr));
         l_all_layers_neuron->setText(QCoreApplication::translate("MainWindow", "\320\232\320\276\320\273\320\270\321\207\320\265\321\201\321\202\320\262\320\276 \320\275\320\265\320\271\321\200\320\276\320\275\320\276\320\262 \320\262 \320\272\320\260\320\266\320\264\320\276\320\274 \321\201\320\273\320\276\320\265:", nullptr));
@@ -686,8 +683,9 @@ public:
         cmbB_fun_activation_outputs->setItemText(7, QCoreApplication::translate("MainWindow", "FANN_GAUSSIAN", nullptr));
         cmbB_fun_activation_outputs->setItemText(8, QCoreApplication::translate("MainWindow", "FANN_GAUSSIAN_SYMMETRIC", nullptr));
 
-        cB_load_from_file->setText(QCoreApplication::translate("MainWindow", "\320\227\320\260\320\263\321\200\321\203\320\267\320\270\321\202\321\214 \320\270\320\267 \321\204\320\260\320\271\320\273\320\260 (*.net)", nullptr));
-        pB_create->setText(QCoreApplication::translate("MainWindow", "\320\241\320\276\320\267\320\264\320\260\321\202\321\214 \320\230\320\235\320\241", nullptr));
+        l_number_input->setText(QCoreApplication::translate("MainWindow", "\320\232\320\276\320\273\320\270\321\207\320\265\321\201\321\202\320\262\320\276 \320\262\321\205\320\276\320\264\320\276\320\262:", nullptr));
+        l_number_output->setText(QCoreApplication::translate("MainWindow", "\320\232\320\276\320\273\320\270\321\207\320\265\321\201\321\202\320\262\320\276 \320\262\321\213\321\205\320\276\320\264\320\276\320\262:", nullptr));
+        l_number_layers->setText(QCoreApplication::translate("MainWindow", "\320\232\320\276\320\273\320\270\321\207\320\265\321\201\321\202\320\262\320\276 \321\201\320\272\321\200\321\213\321\202\321\213\321\205 \321\201\320\273\320\276\320\265\320\262:", nullptr));
         cB_zoom->setText(QCoreApplication::translate("MainWindow", "\320\222\320\272\320\273\321\216\321\207\320\270\321\202\321\214 \320\274\320\260\321\201\321\210\321\202\320\260\320\261\320\270\321\200\320\276\320\262\320\260\320\275\320\270\320\265", nullptr));
     } // retranslateUi
 

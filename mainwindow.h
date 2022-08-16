@@ -35,6 +35,8 @@ private slots:
 
   void on_cB_zoom_stateChanged(int arg1);
 
+  void on_lE_learning_error_value_editingFinished();
+
 private:
   Ui::MainWindow *ui;
   unsigned int num_layers;
