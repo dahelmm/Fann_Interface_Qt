@@ -5,6 +5,7 @@
 #include "qcustomplot.h"
 #include <QVector>
 
+
 #include "src/include/floatfann.h"
 
 QT_BEGIN_NAMESPACE
@@ -19,6 +20,7 @@ public:
   MainWindow(QWidget *parent = nullptr);
   ~MainWindow();
 
+
 private slots:
   void on_sB_number_layers_valueChanged(int arg1);
   void on_pB_create_clicked();
@@ -26,7 +28,14 @@ private slots:
   void on_cB_all_or_alone_stateChanged(int arg1);
   void on_sB_number_neurons_valueChanged(int arg1);
   void on_pB_load_sample_clicked();
-  void on_pB_analyze_clicked();
+  void slotChecked(bool state);
+  void on_tW_grapfics_currentChanged(int index);
+
+  void on_checkBox_stateChanged(int arg1);
+
+  void on_cB_zoom_stateChanged(int arg1);
+
+  void on_lE_learning_error_value_editingFinished();
 
 private:
   Ui::MainWindow *ui;
@@ -36,15 +45,14 @@ private:
   unsigned int num_output, num_input;
   struct fann  *ann;
 
+  QGridLayout *gridLGraphics;
   QString name_train_data; // эта переменная инициализируется
                            //при нажатии кнопки "Загрузить обучающую выборку"
   struct fann_train_data *train_data, *test_data;
 
-  double xBegin, xEnd, step, X;
   int N;
 
   QVector<double> x,y;
-  QVector<double> x2,y2;
 
 };
 #endif // MAINWINDOW_H
