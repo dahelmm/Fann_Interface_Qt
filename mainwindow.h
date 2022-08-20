@@ -4,9 +4,10 @@
 #include <QMainWindow>
 #include "qcustomplot.h"
 #include <QVector>
-
+#include <QMap>
 
 #include "src/include/floatfann.h"
+#include "src/include/fann_train.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -30,27 +31,26 @@ private slots:
   void on_pB_load_sample_clicked();
   void slotChecked(bool state);
   void on_tW_grapfics_currentChanged(int index);
-
-  void on_checkBox_stateChanged(int arg1);
-
+  void on_cB_subsample_stateChanged(int arg1);
   void on_cB_zoom_stateChanged(int arg1);
-
   void on_lE_learning_error_value_editingFinished();
+  void on_pB_educate_clicked();
+
+  void on_pB_displayGraphic_clicked();
 
 private:
   Ui::MainWindow *ui;
-  unsigned int num_layers;
-  unsigned int * num_neurons;
-  unsigned int num_neurons_std;
-  unsigned int num_output, num_input;
-  struct fann  *ann;
+  unsigned int    num_layers;
+  unsigned int    *num_neurons;
+  unsigned int    num_neurons_std;
+  unsigned int    num_output, num_input;
+  struct fann     *ann;
 
-  QGridLayout *gridLGraphics;
-  QString name_train_data; // эта переменная инициализируется
+  QGridLayout     *gridLGraphics;
+  QString         name_train_data; // эта переменная инициализируется
                            //при нажатии кнопки "Загрузить обучающую выборку"
-  struct fann_train_data *train_data, *test_data;
+  struct          fann_train_data *train_data, *sub_train_data;
 
-  int N;
 
   QVector<double> x,y;
 
