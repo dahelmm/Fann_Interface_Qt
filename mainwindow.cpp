@@ -62,7 +62,7 @@ void MainWindow::selectionChanged()
 
 void MainWindow::on_sB_number_layers_valueChanged(int value)
 {
-  num_layers = value;
+  num_latent_layers = value;
   if(value>ui->cmbB_select_neurons->count()) {
     for (int i = (ui->cmbB_select_neurons->count()) + 1; i <= value; i++) {
       ui->cmbB_select_neurons->addItem("Слое " + QString::number(i));
@@ -83,22 +83,24 @@ void MainWindow::on_pB_create_clicked()
 
   }
   else {
+    num_layers = num_latent_layers + 2;
+    num_neurons = (unsigned int *)calloc(num_layers, sizeof(unsigned int));
     num_input = ui->sB_number_input->value();
     num_output = ui->sB_number_output->value();
+    num_neurons[0] = num_input;
+    num_neurons[num_layers-1] = num_output;
     if(ui->cB_all_or_alone->isChecked() == true) {
-      num_neurons[0] = num_input;
-      num_neurons[num_layers-1] = num_output;
 //      for (unsigned int i=1;i<num_layers-1;i++) {
 //          //num_neurons[i] = ... здесь должна быть инициализация внутренних слоёва с формы,
 //          //все слои кроме входного (нулевого) и выходного (последнего) - скрытые
 //      }
-      ann = fann_create_standard_array(num_layers, num_neurons);
     }
     else {
       num_neurons_std = ui->sB_all_neurons->value();
-      ann = fann_create_standard(num_layers, num_input, num_neurons_std, num_output);
+      for (unsigned int i=1;i<num_layers-1;i++)
+          num_neurons[i] = num_neurons_std;
     }
-
+    ann = fann_create_standard_array(num_layers, num_neurons);
 
     fann_set_activation_function_hidden(ann, fann_activationfunc_enum(ui->cmbB_fun_activation_layers->currentIndex()));
     fann_set_activation_function_output(ann, fann_activationfunc_enum(ui->cmbB_fun_activation_outputs->currentIndex()));
@@ -124,8 +126,7 @@ void MainWindow::on_cB_all_or_alone_toggled(bool checked)
 
 void MainWindow::on_cB_all_or_alone_stateChanged(int value)
 {
-  if(value && num_layers)
-      num_neurons = (unsigned int *)calloc(num_layers, sizeof(unsigned int));
+
 }
 
 void MainWindow::on_sB_number_neurons_valueChanged(int value)
