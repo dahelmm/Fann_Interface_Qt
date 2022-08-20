@@ -36,6 +36,30 @@ MainWindow::~MainWindow()
   delete ui;
 }
 
+void MainWindow::selectionChanged()
+{
+  QCustomPlot* plotSender = qobject_cast<QCustomPlot*>(sender());
+  if(plotSender->xAxis->selectedParts().testFlag(QCPAxis::spAxis) ||
+     plotSender->xAxis->selectedParts().testFlag(QCPAxis::spTickLabels))
+  {
+    plotSender->xAxis->setSelectedParts(QCPAxis::spAxis|QCPAxis::spTickLabels);
+  }
+  if(plotSender->yAxis->selectedParts().testFlag(QCPAxis::spAxis) ||
+     plotSender->yAxis->selectedParts().testFlag(QCPAxis::spTickLabels))
+  {
+    plotSender->yAxis->setSelectedParts(QCPAxis::spAxis|QCPAxis::spTickLabels);
+  }
+  for (int i = 0; i < plotSender->graphCount(); i++) {
+    QCPGraph *graph = plotSender->graph(i);
+    QCPPlottableLegendItem *item = plotSender->legend->itemWithPlottable(graph);
+    if(item->selected() || graph->selected())
+    {
+      item->setSelected(true);
+      graph->setSelection(QCPDataSelection(graph->data()->dataRange()));
+    }
+  }
+}
+
 void MainWindow::on_sB_number_layers_valueChanged(int value)
 {
   num_layers = value;
@@ -167,7 +191,10 @@ void MainWindow::on_pB_load_sample_clicked()
       customPlot->graph(i)->setVisible(false);
       customPlot->graph(i)->setPen(penPlot);
     }
+    customPlot->setInteractions(QCP::iSelectAxes | QCP::iSelectLegend | QCP::iSelectPlottables);
+    customPlot->legend->setSelectableParts(QCPLegend::spItems);
     customPlot->setObjectName(QString::number(j));
+    connect(customPlot, &QCustomPlot::selectionChangedByUser, this, &MainWindow::selectionChanged);
     ui->tW_grapfics->insertTab(j,customPlot,QString("График %1").arg(j+1));
   }
 
@@ -226,10 +253,11 @@ void MainWindow::on_cB_zoom_stateChanged(int state)
     plot->xAxis->setRange(0,train_data->num_data);
     plot->yAxis->setRange(-1,1);
     plot->setSelectionRectMode(QCP::srmNone);
+
     ui->cB_zoom->setText("Включить масштабирование");
   }
-  plot->setInteraction(QCP::iRangeDrag,state);
-  plot->setInteraction(QCP::iRangeZoom,state);
+//  plot->setInteraction(QCP::iRangeDrag,state);
+//  plot->setInteraction(QCP::iRangeZoom,state);
   plot->replot();
 }
 
@@ -276,25 +304,28 @@ void MainWindow::on_pB_educate_clicked()
   fann_type *calc_out;
   fann_type *input;
 
-  QCustomPlot * plot = qobject_cast<QCustomPlot*>(ui->tW_grapfics->widget(ui->tW_grapfics->currentIndex())); //k=0
-  for(unsigned int j = train_data->num_input; j < train_data->num_input+train_data->num_output; j++) {
-    if(plot->graph(j)->visible()) {
-      plot->addGraph();
-      int num_graph = plot->graphCount()-1;
-      QPen penPlot;
-      penPlot.setWidth(1);
-      penPlot.setColor(QColor((rand()%255),rand()%255,(rand()%255)));
-      plot->graph(num_graph)->setPen(penPlot);
-      plot->graph(num_graph)->setName(QString("Новый график %1").arg(j-train_data->num_input+1));
-      for(unsigned int i=start_num_train; i<finish_num_train; i++) {
-        input = fann_get_train_output(sub_train_data,i);
-        calc_out = fann_run(ann, input);
-        plot->graph(num_graph)->addData(i,calc_out[j-train_data->num_input]);
+  for (int k = 0; k < ui->tW_grapfics->count(); k++) {
+    QCustomPlot * plot = qobject_cast<QCustomPlot*>(ui->tW_grapfics->widget(k));
+    for(unsigned int j = train_data->num_input; j < train_data->num_input+train_data->num_output; j++) {
+      if(plot->graph(j)->visible()) {
+        plot->addGraph();
+        int num_graph = plot->graphCount()-1;
+        QPen penPlot;
+        penPlot.setWidth(1);
+        penPlot.setColor(QColor((rand()%255),rand()%255,(rand()%255)));
+        plot->graph(num_graph)->setPen(penPlot);
+        plot->graph(num_graph)->setName(QString("Новый график %1").arg(j-train_data->num_input+1));
+        for(unsigned int i=start_num_train; i<finish_num_train; i++) {
+          input = fann_get_train_output(sub_train_data,i);
+          calc_out = fann_run(ann, input);
+          plot->graph(num_graph)->addData(i,calc_out[j-train_data->num_input]);
 
+        }
       }
     }
+    plot->replot();
   }
-  plot->replot();
+
   fann_destroy_train(sub_train_data);
 }
 
