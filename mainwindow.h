@@ -40,7 +40,7 @@ private slots:
 
 private:
   Ui::MainWindow *ui;
-  unsigned int    num_layers;
+  unsigned int    num_layers, num_latent_layers;
   unsigned int    *num_neurons;
   unsigned int    num_neurons_std;
   unsigned int    num_output, num_input;
