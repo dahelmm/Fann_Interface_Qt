@@ -23,6 +23,7 @@ public:
 
 
 private slots:
+  void selectionChanged();
   void on_sB_number_layers_valueChanged(int arg1);
   void on_pB_create_clicked();
   void on_cB_all_or_alone_toggled(bool checked);
