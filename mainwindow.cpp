@@ -136,7 +136,8 @@ void MainWindow::on_pB_load_sample_clicked()
     connect(checkBox, &QCheckBox::clicked, this, &MainWindow::slotChecked);
     gridLGraphics->addWidget(checkBox);
   }
-  for (unsigned int j = 0; j < train_data->num_input; j++) {
+
+  for (unsigned int j = 0; j < train_data->num_output; j++) {
     QCustomPlot *customPlot = new QCustomPlot(ui->tW_grapfics);
 
     customPlot->xAxis->setRange(0,train_data->num_data);
@@ -165,18 +166,19 @@ void MainWindow::on_pB_load_sample_clicked()
       customPlot->graph(i)->addData(x,y);
       customPlot->graph(i)->setVisible(false);
       customPlot->graph(i)->setPen(penPlot);
-
     }
     customPlot->setObjectName(QString::number(j));
     ui->tW_grapfics->insertTab(j,customPlot,QString("График %1").arg(j+1));
   }
+
   for(int k = 0; k < ui->tW_grapfics->count(); k++) {
     QCustomPlot * plot = qobject_cast<QCustomPlot*>(ui->tW_grapfics->widget(k));
     for(int l = 0; l < plot->graphCount(); l++) {
-      plot->graph(l)->setVisible(l == k);
+      plot->graph(l)->setVisible(static_cast<unsigned int>(l) == k+train_data->num_input);
       plot->replot();
     }
   }
+
   QCustomPlot * plot = qobject_cast<QCustomPlot*>(ui->tW_grapfics->widget(ui->tW_grapfics->currentIndex()));
   for(int i = 0; i < gridLGraphics->count(); i++) {
     QCheckBox *box = qobject_cast<QCheckBox*>(gridLGraphics->itemAt(i)->widget());
@@ -187,7 +189,7 @@ void MainWindow::on_pB_load_sample_clicked()
 
 void MainWindow::slotChecked(bool state)
 {
-  QCheckBox *box = (QCheckBox*) sender();
+  QCheckBox *box = qobject_cast<QCheckBox*>(sender());
   QCustomPlot * plot = qobject_cast<QCustomPlot*>(ui->tW_grapfics->widget(ui->tW_grapfics->currentIndex()));
   plot->graph(box->objectName().toInt())->setVisible(state);
   plot->replot();
@@ -204,7 +206,7 @@ void MainWindow::on_tW_grapfics_currentChanged(int index)
   ui->cB_zoom->setChecked(false);
 }
 
-void MainWindow::on_checkBox_stateChanged(int state)
+void MainWindow::on_cB_subsample_stateChanged(int state)
 {
   if(state)
     ui->pB_educate->setText("Обучить на частичной выборке");
@@ -233,11 +235,70 @@ void MainWindow::on_cB_zoom_stateChanged(int state)
 
 void MainWindow::on_lE_learning_error_value_editingFinished()
 {
-  if((ui->rB_stop_bit->isChecked() || ui->rB_stop_mse->isChecked()) &&
-     !ui->lE_max_count_eras->text().isEmpty()                       &&
-     !ui->lE_ouput_report_eras->text().isEmpty()                    &&
+  if(!ui->lE_max_count_eras->text().isEmpty()        &&
+     !ui->lE_ouput_report_eras->text().isEmpty()     &&
      !ui->lE_learning_error_value->text().isEmpty())
   {
     ui->pB_educate->setEnabled(true);
   }
+}
+
+void MainWindow::on_pB_educate_clicked()
+{
+  unsigned int start_num_train = 0;
+  unsigned int finish_num_train = 0;
+  if(ui->cB_subsample->isChecked()){
+      start_num_train = ui->lE_interval_from->text().toUInt();
+      finish_num_train = ui->lE_interval_before->text().toUInt();
+      sub_train_data = fann_subset_train_data(train_data, start_num_train, finish_num_train);
+  }
+  else{
+      finish_num_train = fann_length_train_data (train_data);
+      sub_train_data = fann_duplicate_train_data(train_data);
+  }
+
+  fann_set_train_stop_function(ann, fann_stopfunc_enum(ui->cmbB_trainStop->currentIndex()));
+  fann_set_bit_fail_limit(ann, 0.01f);
+
+  fann_set_training_algorithm(ann, FANN_TRAIN_RPROP);
+  if(ui->cB_set_weights->isChecked())
+    fann_init_weights(ann, sub_train_data);
+
+  printf("Training network.\n");
+  const float desired_error = ui->lE_learning_error_value->text().toFloat();
+  const unsigned int max_epochs = ui->lE_max_count_eras->text().toUInt();
+  const unsigned int epochs_between_reports = ui->lE_ouput_report_eras->text().toUInt();
+  //если FANN_STOPFUNC_MSE, то desired_error - это MSE,
+  //если FANN_STOPFUNC_BIT, то desired_error - это кол-во BIT,
+  fann_train_on_data(ann, sub_train_data, max_epochs, epochs_between_reports, desired_error);
+
+  //вывод на графики
+  fann_type *calc_out;
+  fann_type *input;
+
+  QCustomPlot * plot = qobject_cast<QCustomPlot*>(ui->tW_grapfics->widget(ui->tW_grapfics->currentIndex())); //k=0
+  for(unsigned int j = train_data->num_input; j < train_data->num_input+train_data->num_output; j++) {
+    if(plot->graph(j)->visible()) {
+      plot->addGraph();
+      int num_graph = plot->graphCount()-1;
+      QPen penPlot;
+      penPlot.setWidth(1);
+      penPlot.setColor(QColor((rand()%255),rand()%255,(rand()%255)));
+      plot->graph(num_graph)->setPen(penPlot);
+      plot->graph(num_graph)->setName(QString("Новый график %1").arg(j-train_data->num_input+1));
+      for(unsigned int i=start_num_train; i<finish_num_train; i++) {
+        input = fann_get_train_output(sub_train_data,i);
+        calc_out = fann_run(ann, input);
+        plot->graph(num_graph)->addData(i,calc_out[j-train_data->num_input]);
+
+      }
+    }
+  }
+  plot->replot();
+  fann_destroy_train(sub_train_data);
+}
+
+void MainWindow::on_pB_displayGraphic_clicked()
+{
+
 }
