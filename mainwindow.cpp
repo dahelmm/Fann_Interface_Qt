@@ -89,13 +89,8 @@ void MainWindow::on_pB_create_clicked()
     num_output = ui->sB_number_output->value();
     num_neurons[0] = num_input;
     num_neurons[num_layers-1] = num_output;
-    if(ui->cB_all_or_alone->isChecked() == true) {
-//      for (unsigned int i=1;i<num_layers-1;i++) {
-//          //num_neurons[i] = ... здесь должна быть инициализация внутренних слоёва с формы,
-//          //все слои кроме входного (нулевого) и выходного (последнего) - скрытые
-//      }
-    }
-    else {
+    if(!ui->cB_all_or_alone->isChecked())
+    {
       num_neurons_std = ui->sB_all_neurons->value();
       for (unsigned int i=1;i<num_layers-1;i++)
           num_neurons[i] = num_neurons_std;
@@ -121,12 +116,6 @@ void MainWindow::on_cB_all_or_alone_toggled(bool checked)
     ui->cB_all_or_alone->setText("Задавать количество нейронов каждому слою");
     ui->sW_neurons->setCurrentIndex(1);
   }
-}
-
-
-void MainWindow::on_cB_all_or_alone_stateChanged(int value)
-{
-
 }
 
 void MainWindow::on_sB_number_neurons_valueChanged(int value)
@@ -192,7 +181,7 @@ void MainWindow::on_pB_load_sample_clicked()
       customPlot->graph(i)->setVisible(false);
       customPlot->graph(i)->setPen(penPlot);
     }
-    customPlot->setInteractions(QCP::iSelectAxes | QCP::iSelectLegend | QCP::iSelectPlottables);
+    customPlot->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom | QCP::iSelectAxes | QCP::iSelectLegend | QCP::iSelectPlottables);
     customPlot->legend->setSelectableParts(QCPLegend::spItems);
     customPlot->setObjectName(QString::number(j));
     connect(customPlot, &QCustomPlot::selectionChangedByUser, this, &MainWindow::selectionChanged);
@@ -253,12 +242,10 @@ void MainWindow::on_cB_zoom_stateChanged(int state)
   else {
     plot->xAxis->setRange(0,train_data->num_data);
     plot->yAxis->setRange(-1,1);
+    plot->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom | QCP::iSelectAxes | QCP::iSelectLegend | QCP::iSelectPlottables);
     plot->setSelectionRectMode(QCP::srmNone);
-
     ui->cB_zoom->setText("Включить масштабирование");
   }
-//  plot->setInteraction(QCP::iRangeDrag,state);
-//  plot->setInteraction(QCP::iRangeZoom,state);
   plot->replot();
 }
 
@@ -326,7 +313,6 @@ void MainWindow::on_pB_educate_clicked()
     }
     plot->replot();
   }
-
   fann_destroy_train(sub_train_data);
 }
 

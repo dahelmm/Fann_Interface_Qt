@@ -24,19 +24,18 @@ public:
 
 private slots:
   void selectionChanged();
+  void slotChecked(bool state);
+
   void on_sB_number_layers_valueChanged(int arg1);
   void on_pB_create_clicked();
   void on_cB_all_or_alone_toggled(bool checked);
-  void on_cB_all_or_alone_stateChanged(int arg1);
   void on_sB_number_neurons_valueChanged(int arg1);
   void on_pB_load_sample_clicked();
-  void slotChecked(bool state);
   void on_tW_grapfics_currentChanged(int index);
   void on_cB_subsample_stateChanged(int arg1);
   void on_cB_zoom_stateChanged(int arg1);
   void on_lE_learning_error_value_editingFinished();
   void on_pB_educate_clicked();
-
   void on_pB_displayGraphic_clicked();
 
 private:
