@@ -51,7 +51,8 @@ private:
                            //при нажатии кнопки "Загрузить обучающую выборку"
   struct          fann_train_data *train_data, *sub_train_data;
 
-
+  unsigned int start_num_train = 0;
+  unsigned int finish_num_train = 0;
   QVector<double> x,y;
 
 };

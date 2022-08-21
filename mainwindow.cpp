@@ -261,8 +261,6 @@ void MainWindow::on_lE_learning_error_value_editingFinished()
 
 void MainWindow::on_pB_educate_clicked()
 {
-  unsigned int start_num_train = 0;
-  unsigned int finish_num_train = 0;
   if(ui->cB_subsample->isChecked()){
       start_num_train = ui->lE_interval_from->text().toUInt();
       finish_num_train = ui->lE_interval_before->text().toUInt();
@@ -287,7 +285,10 @@ void MainWindow::on_pB_educate_clicked()
   //если FANN_STOPFUNC_MSE, то desired_error - это MSE,
   //если FANN_STOPFUNC_BIT, то desired_error - это кол-во BIT,
   fann_train_on_data(ann, sub_train_data, max_epochs, epochs_between_reports, desired_error);
+}
 
+void MainWindow::on_pB_displayGraphic_clicked()
+{
   //вывод на графики
   fann_type *calc_out;
   fann_type *input;
@@ -314,9 +315,5 @@ void MainWindow::on_pB_educate_clicked()
     plot->replot();
   }
   fann_destroy_train(sub_train_data);
-}
-
-void MainWindow::on_pB_displayGraphic_clicked()
-{
 
 }
