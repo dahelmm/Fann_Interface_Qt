@@ -19,6 +19,8 @@ extern "C" {
 MainWindow::MainWindow(QWidget *parent)
   : QMainWindow(parent)
   , ui(new Ui::MainWindow)
+  , num_latent_layers(0)
+  , num_neurons(0)
 {
 
 #ifdef __cplusplus
@@ -29,6 +31,7 @@ MainWindow::MainWindow(QWidget *parent)
 #endif
 
   ui->setupUi(this);
+
 }
 
 MainWindow::~MainWindow()
@@ -62,6 +65,10 @@ void MainWindow::selectionChanged()
 
 void MainWindow::on_sB_number_layers_valueChanged(int value)
 {
+  if((!num_latent_layers) && (!num_neurons))
+  {
+    num_neurons = resizeArray(num_layers,value+2,num_neurons);
+  }
   num_latent_layers = value;
   if(value>ui->cmbB_select_neurons->count()) {
     for (int i = (ui->cmbB_select_neurons->count()) + 1; i <= value; i++) {
@@ -83,29 +90,29 @@ void MainWindow::on_pB_create_clicked()
 
   }
   else {
-    num_layers = num_latent_layers + 2;
-    num_neurons = (unsigned int *)calloc(num_layers, sizeof(unsigned int));
-    num_input = ui->sB_number_input->value();
-    num_output = ui->sB_number_output->value();
-    num_neurons[0] = num_input;
-    num_neurons[num_layers-1] = num_output;
-    if(ui->cB_all_or_alone->isChecked() == true) {
-//      for (unsigned int i=1;i<num_layers-1;i++) {
-//          //num_neurons[i] = ... здесь должна быть инициализация внутренних слоёва с формы,
-//          //все слои кроме входного (нулевого) и выходного (последнего) - скрытые
-//      }
-    }
-    else {
+
+    if(!ui->cB_all_or_alone->isChecked())
+//    {
+
+//    }
+//    else
+    {
+      num_layers = num_latent_layers + 2;
+      num_neurons = new unsigned int[num_layers];
+      num_input = ui->sB_number_input->value();
+      num_output = ui->sB_number_output->value();
+      num_neurons[0] = num_input;
+      num_neurons[num_layers-1] = num_output;
       num_neurons_std = ui->sB_all_neurons->value();
       for (unsigned int i=1;i<num_layers-1;i++)
-          num_neurons[i] = num_neurons_std;
+        num_neurons[i] = num_neurons_std;
     }
     ann = fann_create_standard_array(num_layers, num_neurons);
 
     fann_set_activation_function_hidden(ann, fann_activationfunc_enum(ui->cmbB_fun_activation_layers->currentIndex()));
     fann_set_activation_function_output(ann, fann_activationfunc_enum(ui->cmbB_fun_activation_outputs->currentIndex()));
   }
-
+  delete [] num_neurons;
   ui->gB_training_set->setEnabled(true);
 }
 
@@ -123,15 +130,9 @@ void MainWindow::on_cB_all_or_alone_toggled(bool checked)
   }
 }
 
-
-void MainWindow::on_cB_all_or_alone_stateChanged(int value)
-{
-
-}
-
 void MainWindow::on_sB_number_neurons_valueChanged(int value)
 {
-  num_neurons[ui->cmbB_select_neurons->currentIndex()] = value;
+  num_neurons[ui->cmbB_select_neurons->currentIndex()+1] = value;
 }
 
 void MainWindow::on_pB_load_sample_clicked()
@@ -192,7 +193,7 @@ void MainWindow::on_pB_load_sample_clicked()
       customPlot->graph(i)->setVisible(false);
       customPlot->graph(i)->setPen(penPlot);
     }
-    customPlot->setInteractions(QCP::iSelectAxes | QCP::iSelectLegend | QCP::iSelectPlottables);
+    customPlot->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom | QCP::iSelectAxes | QCP::iSelectLegend | QCP::iSelectPlottables);
     customPlot->legend->setSelectableParts(QCPLegend::spItems);
     customPlot->setObjectName(QString::number(j));
     connect(customPlot, &QCustomPlot::selectionChangedByUser, this, &MainWindow::selectionChanged);
@@ -221,6 +222,21 @@ void MainWindow::slotChecked(bool state)
   QCustomPlot * plot = qobject_cast<QCustomPlot*>(ui->tW_grapfics->widget(ui->tW_grapfics->currentIndex()));
   plot->graph(box->objectName().toInt())->setVisible(state);
   plot->replot();
+}
+
+unsigned int *MainWindow::resizeArray(int lastSize, int newSize, unsigned int *data)
+{
+  if(lastSize < newSize)
+  {
+    unsigned int* newArray = new unsigned int[newSize];
+    for(int i = 0; i < lastSize; i++)
+    {
+      newArray[i] = data[i];
+    }
+    delete [] data;
+    data = newArray;
+    return data;
+  }
 }
 
 void MainWindow::on_tW_grapfics_currentChanged(int index)
@@ -253,12 +269,10 @@ void MainWindow::on_cB_zoom_stateChanged(int state)
   else {
     plot->xAxis->setRange(0,train_data->num_data);
     plot->yAxis->setRange(-1,1);
+    plot->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom | QCP::iSelectAxes | QCP::iSelectLegend | QCP::iSelectPlottables);
     plot->setSelectionRectMode(QCP::srmNone);
-
     ui->cB_zoom->setText("Включить масштабирование");
   }
-//  plot->setInteraction(QCP::iRangeDrag,state);
-//  plot->setInteraction(QCP::iRangeZoom,state);
   plot->replot();
 }
 
@@ -274,8 +288,6 @@ void MainWindow::on_lE_learning_error_value_editingFinished()
 
 void MainWindow::on_pB_educate_clicked()
 {
-  unsigned int start_num_train = 0;
-  unsigned int finish_num_train = 0;
   if(ui->cB_subsample->isChecked()){
       start_num_train = ui->lE_interval_from->text().toUInt();
       finish_num_train = ui->lE_interval_before->text().toUInt();
@@ -300,7 +312,10 @@ void MainWindow::on_pB_educate_clicked()
   //если FANN_STOPFUNC_MSE, то desired_error - это MSE,
   //если FANN_STOPFUNC_BIT, то desired_error - это кол-во BIT,
   fann_train_on_data(ann, sub_train_data, max_epochs, epochs_between_reports, desired_error);
+}
 
+void MainWindow::on_pB_displayGraphic_clicked()
+{
   //вывод на графики
   fann_type *calc_out;
   fann_type *input;
@@ -315,7 +330,7 @@ void MainWindow::on_pB_educate_clicked()
         penPlot.setWidth(1);
         penPlot.setColor(QColor((rand()%255),rand()%255,(rand()%255)));
         plot->graph(num_graph)->setPen(penPlot);
-        plot->graph(num_graph)->setName(QString("Новый график %1").arg(j-train_data->num_input+1));
+        plot->graph(num_graph)->setName(QString("ИНС выход %1").arg(j-train_data->num_input+1));
         for(unsigned int i=start_num_train; i<finish_num_train; i++) {
           input = fann_get_train_output(sub_train_data,i);
           calc_out = fann_run(ann, input);
@@ -326,11 +341,28 @@ void MainWindow::on_pB_educate_clicked()
     }
     plot->replot();
   }
-
   fann_destroy_train(sub_train_data);
+
 }
 
-void MainWindow::on_pB_displayGraphic_clicked()
+void MainWindow::on_cB_all_or_alone_stateChanged(int state)
 {
+  if(state)
+  {
+    num_layers = num_latent_layers + 2;
+    num_neurons = new unsigned int[num_layers];
+    num_input = ui->sB_number_input->value();
+    num_output = ui->sB_number_output->value();
+    num_neurons[0] = num_input;
+    num_neurons[num_layers-1] = num_output;
+  }
+  else
+    delete [] num_neurons;
+}
 
+
+void MainWindow::on_cmbB_select_neurons_currentIndexChanged(int index)
+{
+  ui->sB_number_neurons->setValue(0);
+  Q_UNUSED(index);
 }
