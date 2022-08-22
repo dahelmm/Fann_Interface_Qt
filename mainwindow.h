@@ -25,6 +25,7 @@ public:
 private slots:
   void selectionChanged();
   void slotChecked(bool state);
+  unsigned int* resizeArray(int lastSize, int newSize, unsigned int *data);
 
   void on_sB_number_layers_valueChanged(int arg1);
   void on_pB_create_clicked();
@@ -37,6 +38,9 @@ private slots:
   void on_lE_learning_error_value_editingFinished();
   void on_pB_educate_clicked();
   void on_pB_displayGraphic_clicked();
+  void on_cB_all_or_alone_stateChanged(int arg1);
+
+  void on_cmbB_select_neurons_currentIndexChanged(int index);
 
 private:
   Ui::MainWindow *ui;
