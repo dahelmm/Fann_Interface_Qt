@@ -25,7 +25,6 @@ public:
 private slots:
   void selectionChanged();
   void slotChecked(bool state);
-  unsigned int* resizeArray(int lastSize, int newSize, unsigned int *data);
 
   void on_sB_number_layers_valueChanged(int arg1);
   void on_pB_create_clicked();
