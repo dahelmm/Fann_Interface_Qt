@@ -92,16 +92,21 @@ void MainWindow::on_pB_create_clicked()
 
   }
   else {
+
+    if(!ui->cB_all_or_alone->isChecked())
+    {
+      num_neurons_std = ui->sB_all_neurons->value();
+      num_neurons = (unsigned int*)calloc(num_layers,num_layers*sizeof(unsigned int));
+      for (unsigned int i=1;i<num_layers-1;i++)
+        num_neurons[i] = num_neurons_std;
+    }
     num_input = ui->sB_number_input->value();
     num_output = ui->sB_number_output->value();
     num_neurons[0] = num_input;
     num_neurons[num_layers-1] = num_output;
-    num_neurons_std = ui->sB_all_neurons->value();
-    if(!ui->cB_all_or_alone->isChecked())
+    for(unsigned int i = 0; i < num_layers; i++)
     {
-      num_neurons = (unsigned int*)calloc(num_layers,num_layers*sizeof(unsigned int));
-      for (unsigned int i=1;i<num_layers-1;i++)
-        num_neurons[i] = num_neurons_std;
+      test_array[i] = num_neurons[i];
     }
     ann = fann_create_standard_array(num_layers, num_neurons);
 
@@ -330,6 +335,11 @@ void MainWindow::on_cB_all_or_alone_stateChanged(int state)
 {
   if(state)
   {
+    if(num_neurons)
+    {
+      delete [] num_neurons;
+      num_neurons = 0;
+    }
     num_layers = num_latent_layers + 2;
     num_neurons = (unsigned int*)calloc(num_layers,num_layers*sizeof (unsigned int));
     num_input = ui->sB_number_input->value();
