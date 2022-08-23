@@ -57,7 +57,6 @@ private:
   unsigned int start_num_train = 0;
   unsigned int finish_num_train = 0;
   QVector<double> x,y;
-  unsigned int test_array[20];
 
 };
 #endif // MAINWINDOW_H

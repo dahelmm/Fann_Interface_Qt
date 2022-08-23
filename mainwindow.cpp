@@ -104,10 +104,6 @@ void MainWindow::on_pB_create_clicked()
     num_output = ui->sB_number_output->value();
     num_neurons[0] = num_input;
     num_neurons[num_layers-1] = num_output;
-    for(unsigned int i = 0; i < num_layers; i++)
-    {
-      test_array[i] = num_neurons[i];
-    }
     ann = fann_create_standard_array(num_layers, num_neurons);
 
     fann_set_activation_function_hidden(ann, fann_activationfunc_enum(ui->cmbB_fun_activation_layers->currentIndex()));
