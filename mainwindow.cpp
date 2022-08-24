@@ -65,9 +65,9 @@ void MainWindow::selectionChanged()
 
 void MainWindow::on_sB_number_layers_valueChanged(int value)
 {
-  if((!num_latent_layers) && (!num_neurons))
+  if((num_latent_layers) && (num_neurons))
   {
-    num_neurons = resizeArray(num_layers,value+2,num_neurons);
+    num_neurons = (unsigned int*)realloc(num_neurons,(value+2)*sizeof(unsigned int));
   }
   num_latent_layers = value;
   if(value>ui->cmbB_select_neurons->count()) {
@@ -84,6 +84,8 @@ void MainWindow::on_sB_number_layers_valueChanged(int value)
 
 void MainWindow::on_pB_create_clicked()
 {
+  num_layers = num_latent_layers + 2;
+
   if(ui->cB_load_from_file->isChecked() == true) {
     QString file_path = QFileDialog::getOpenFileName(this,"Открыть файл ИНС",nullptr,"*.net");
     ann = fann_create_from_file(file_path.toUtf8().constData());
@@ -92,27 +94,22 @@ void MainWindow::on_pB_create_clicked()
   else {
 
     if(!ui->cB_all_or_alone->isChecked())
-//    {
-
-//    }
-//    else
     {
-      num_layers = num_latent_layers + 2;
-      num_neurons = new unsigned int[num_layers];
-      num_input = ui->sB_number_input->value();
-      num_output = ui->sB_number_output->value();
-      num_neurons[0] = num_input;
-      num_neurons[num_layers-1] = num_output;
       num_neurons_std = ui->sB_all_neurons->value();
+      num_neurons = (unsigned int*)calloc(num_layers,num_layers*sizeof(unsigned int));
       for (unsigned int i=1;i<num_layers-1;i++)
         num_neurons[i] = num_neurons_std;
     }
+    num_input = ui->sB_number_input->value();
+    num_output = ui->sB_number_output->value();
+    num_neurons[0] = num_input;
+    num_neurons[num_layers-1] = num_output;
     ann = fann_create_standard_array(num_layers, num_neurons);
 
     fann_set_activation_function_hidden(ann, fann_activationfunc_enum(ui->cmbB_fun_activation_layers->currentIndex()));
     fann_set_activation_function_output(ann, fann_activationfunc_enum(ui->cmbB_fun_activation_outputs->currentIndex()));
   }
-  delete [] num_neurons;
+//  delete [] num_neurons;
   ui->gB_training_set->setEnabled(true);
 }
 
@@ -222,21 +219,6 @@ void MainWindow::slotChecked(bool state)
   QCustomPlot * plot = qobject_cast<QCustomPlot*>(ui->tW_grapfics->widget(ui->tW_grapfics->currentIndex()));
   plot->graph(box->objectName().toInt())->setVisible(state);
   plot->replot();
-}
-
-unsigned int *MainWindow::resizeArray(int lastSize, int newSize, unsigned int *data)
-{
-  if(lastSize < newSize)
-  {
-    unsigned int* newArray = new unsigned int[newSize];
-    for(int i = 0; i < lastSize; i++)
-    {
-      newArray[i] = data[i];
-    }
-    delete [] data;
-    data = newArray;
-    return data;
-  }
 }
 
 void MainWindow::on_tW_grapfics_currentChanged(int index)
@@ -349,8 +331,13 @@ void MainWindow::on_cB_all_or_alone_stateChanged(int state)
 {
   if(state)
   {
+    if(num_neurons)
+    {
+      delete [] num_neurons;
+      num_neurons = 0;
+    }
     num_layers = num_latent_layers + 2;
-    num_neurons = new unsigned int[num_layers];
+    num_neurons = (unsigned int*)calloc(num_layers,num_layers*sizeof (unsigned int));
     num_input = ui->sB_number_input->value();
     num_output = ui->sB_number_output->value();
     num_neurons[0] = num_input;
@@ -363,6 +350,6 @@ void MainWindow::on_cB_all_or_alone_stateChanged(int state)
 
 void MainWindow::on_cmbB_select_neurons_currentIndexChanged(int index)
 {
-  ui->sB_number_neurons->setValue(0);
-  Q_UNUSED(index);
+  if(num_neurons && ui->cB_all_or_alone->isChecked())
+    ui->sB_number_neurons->setValue(num_neurons[index+1]);
 }
