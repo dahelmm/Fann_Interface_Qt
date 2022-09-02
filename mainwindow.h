@@ -5,6 +5,7 @@
 #include "qcustomplot.h"
 #include <QVector>
 #include <QMap>
+#include <QWidget>
 
 #include "src/include/floatfann.h"
 #include "src/include/fann_train.h"

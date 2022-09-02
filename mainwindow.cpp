@@ -249,13 +249,13 @@ void MainWindow::on_cB_zoom_stateChanged(int state)
     plot->setSelectionRectMode(QCP::srmZoom);
   }
   else {
-    plot->xAxis->setRange(0,train_data->num_data);
-    plot->yAxis->setRange(-1,1);
-    plot->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom | QCP::iSelectAxes | QCP::iSelectLegend | QCP::iSelectPlottables);
+//    plot->xAxis->setRange(0,train_data->num_data);
+//    plot->yAxis->setRange(-1,1);
+//    plot->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom | QCP::iSelectAxes | QCP::iSelectLegend | QCP::iSelectPlottables);
     plot->setSelectionRectMode(QCP::srmNone);
     ui->cB_zoom->setText("Включить масштабирование");
   }
-  plot->replot();
+//  plot->replot();
 }
 
 void MainWindow::on_lE_learning_error_value_editingFinished()
@@ -317,7 +317,6 @@ void MainWindow::on_pB_displayGraphic_clicked()
           input = fann_get_train_output(sub_train_data,i);
           calc_out = fann_run(ann, input);
           plot->graph(num_graph)->addData(i,calc_out[j-train_data->num_input]);
-
         }
       }
     }
@@ -347,9 +346,10 @@ void MainWindow::on_cB_all_or_alone_stateChanged(int state)
     delete [] num_neurons;
 }
 
-
 void MainWindow::on_cmbB_select_neurons_currentIndexChanged(int index)
 {
   if(num_neurons && ui->cB_all_or_alone->isChecked())
     ui->sB_number_neurons->setValue(num_neurons[index+1]);
 }
+
+
