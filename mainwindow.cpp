@@ -36,6 +36,8 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
+  if(num_neurons)
+    delete [] num_neurons;
   delete ui;
 }
 
@@ -89,7 +91,6 @@ void MainWindow::on_pB_create_clicked()
   if(ui->cB_load_from_file->isChecked() == true) {
     QString file_path = QFileDialog::getOpenFileName(this,"Открыть файл ИНС",nullptr,"*.net");
     ann = fann_create_from_file(file_path.toUtf8().constData());
-
   }
   else {
 
@@ -109,7 +110,6 @@ void MainWindow::on_pB_create_clicked()
     fann_set_activation_function_hidden(ann, fann_activationfunc_enum(ui->cmbB_fun_activation_layers->currentIndex()));
     fann_set_activation_function_output(ann, fann_activationfunc_enum(ui->cmbB_fun_activation_outputs->currentIndex()));
   }
-//  delete [] num_neurons;
   ui->gB_training_set->setEnabled(true);
 }
 
