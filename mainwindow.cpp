@@ -36,6 +36,8 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
+  if(num_neurons)
+    delete [] num_neurons;
   delete ui;
 }
 
@@ -89,7 +91,6 @@ void MainWindow::on_pB_create_clicked()
   if(ui->cB_load_from_file->isChecked() == true) {
     QString file_path = QFileDialog::getOpenFileName(this,"Открыть файл ИНС",nullptr,"*.net");
     ann = fann_create_from_file(file_path.toUtf8().constData());
-
   }
   else {
 
@@ -109,11 +110,8 @@ void MainWindow::on_pB_create_clicked()
     fann_set_activation_function_hidden(ann, fann_activationfunc_enum(ui->cmbB_fun_activation_layers->currentIndex()));
     fann_set_activation_function_output(ann, fann_activationfunc_enum(ui->cmbB_fun_activation_outputs->currentIndex()));
   }
-//  delete [] num_neurons;
   ui->gB_training_set->setEnabled(true);
 }
-
-
 
 void MainWindow::on_cB_all_or_alone_toggled(bool checked)
 {
@@ -193,6 +191,9 @@ void MainWindow::on_pB_load_sample_clicked()
     customPlot->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom | QCP::iSelectAxes | QCP::iSelectLegend | QCP::iSelectPlottables);
     customPlot->legend->setSelectableParts(QCPLegend::spItems);
     customPlot->setObjectName(QString::number(j));
+    connect(customPlot, &QCustomPlot::mouseDoubleClick, this, &MainWindow::doubleCkickSlot);
+    connect(customPlot, &QCustomPlot::mousePress, this, &MainWindow::pressEventSlot);
+    connect(customPlot, &QCustomPlot::mouseRelease, this, &MainWindow::releaseEventSlot);
     connect(customPlot, &QCustomPlot::selectionChangedByUser, this, &MainWindow::selectionChanged);
     ui->tW_grapfics->insertTab(j,customPlot,QString("График %1").arg(j+1));
   }
@@ -221,6 +222,37 @@ void MainWindow::slotChecked(bool state)
   plot->replot();
 }
 
+void MainWindow::doubleCkickSlot(QMouseEvent *event)
+{
+  Q_UNUSED(event)
+  QCustomPlot* plot = qobject_cast<QCustomPlot*>(ui->tW_grapfics->currentWidget());
+  plot->xAxis->setRange(0,train_data->num_data);
+  plot->yAxis->setRange(-1,1);
+  plot->replot();
+}
+
+void MainWindow::pressEventSlot(QMouseEvent *event)
+{
+  QCustomPlot * plot = qobject_cast<QCustomPlot*>(ui->tW_grapfics->widget(ui->tW_grapfics->currentIndex()));
+  if(event->button() & Qt::LeftButton)
+  {
+    plot->setSelectionRectMode(QCP::srmZoom);
+  }
+  if(event->button() & Qt::RightButton)
+  {
+    plot->setSelectionRectMode(QCP::srmNone);
+    this->setCursor(Qt::ClosedHandCursor);
+  }
+}
+
+void MainWindow::releaseEventSlot(QMouseEvent *event)
+{
+  if(event->button() & Qt::RightButton)
+  {
+    this->setCursor(Qt::ArrowCursor);
+  }
+}
+
 void MainWindow::on_tW_grapfics_currentChanged(int index)
 {
   ui->gB_graphic_N->setTitle(QString("График %1").arg(index+1));
@@ -229,7 +261,6 @@ void MainWindow::on_tW_grapfics_currentChanged(int index)
     QCheckBox *checkBox = qobject_cast<QCheckBox *> (gridLGraphics->itemAt(i)->widget());
     checkBox->setChecked(plot->graph(i)->visible());
   }
-  ui->cB_zoom->setChecked(false);
 }
 
 void MainWindow::on_cB_subsample_stateChanged(int state)
@@ -239,23 +270,6 @@ void MainWindow::on_cB_subsample_stateChanged(int state)
   else
     ui->pB_educate->setText("Обучить на полной выборке");
   ui->gB_paraneters_subsample->setEnabled(state);
-}
-
-void MainWindow::on_cB_zoom_stateChanged(int state)
-{
-  QCustomPlot * plot = qobject_cast<QCustomPlot*>(ui->tW_grapfics->widget(ui->tW_grapfics->currentIndex()));
-  if(state) {
-    ui->cB_zoom->setText("Отключить масштабирование");
-    plot->setSelectionRectMode(QCP::srmZoom);
-  }
-  else {
-    plot->xAxis->setRange(0,train_data->num_data);
-    plot->yAxis->setRange(-1,1);
-    plot->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom | QCP::iSelectAxes | QCP::iSelectLegend | QCP::iSelectPlottables);
-    plot->setSelectionRectMode(QCP::srmNone);
-    ui->cB_zoom->setText("Включить масштабирование");
-  }
-  plot->replot();
 }
 
 void MainWindow::on_lE_learning_error_value_editingFinished()
@@ -317,14 +331,12 @@ void MainWindow::on_pB_displayGraphic_clicked()
           input = fann_get_train_output(sub_train_data,i);
           calc_out = fann_run(ann, input);
           plot->graph(num_graph)->addData(i,calc_out[j-train_data->num_input]);
-
         }
       }
     }
     plot->replot();
   }
   fann_destroy_train(sub_train_data);
-
 }
 
 void MainWindow::on_cB_all_or_alone_stateChanged(int state)
@@ -346,7 +358,6 @@ void MainWindow::on_cB_all_or_alone_stateChanged(int state)
   else
     delete [] num_neurons;
 }
-
 
 void MainWindow::on_cmbB_select_neurons_currentIndexChanged(int index)
 {
