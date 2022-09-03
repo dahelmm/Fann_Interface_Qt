@@ -2917,12 +2917,9 @@ void QCPSelectionRect::cancel()
 */
 void QCPSelectionRect::startSelection(QMouseEvent *event)
 {
-  if(event->button() & Qt::LeftButton)
-  {
     mActive = true;
     mRect = QRect(event->pos(), event->pos());
     emit started(event);
-  }
 }
 
 /*! \internal
