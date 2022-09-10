@@ -8,7 +8,6 @@
 #include <QWidget>
 
 #include "src/include/floatfann.h"
-#include "src/include/fann_train.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }

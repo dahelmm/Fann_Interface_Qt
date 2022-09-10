@@ -346,7 +346,7 @@ void MainWindow::on_cB_all_or_alone_stateChanged(int state)
     if(num_neurons)
     {
       delete [] num_neurons;
-      num_neurons = 0;
+      num_neurons = nullptr;
     }
     num_layers = num_latent_layers + 2;
     num_neurons = (unsigned int*)calloc(num_layers,num_layers*sizeof (unsigned int));
