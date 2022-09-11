@@ -290,6 +290,11 @@ public:
         gridLayout_3->addWidget(cmbB_trainStop, 0, 0, 1, 1);
 
         comboBoxTrainAlgorithm = new QComboBox(gB_stopEducate);
+        comboBoxTrainAlgorithm->addItem(QString());
+        comboBoxTrainAlgorithm->addItem(QString());
+        comboBoxTrainAlgorithm->addItem(QString());
+        comboBoxTrainAlgorithm->addItem(QString());
+        comboBoxTrainAlgorithm->addItem(QString());
         comboBoxTrainAlgorithm->setObjectName(QString::fromUtf8("comboBoxTrainAlgorithm"));
 
         gridLayout_3->addWidget(comboBoxTrainAlgorithm, 1, 0, 1, 1);
@@ -679,6 +684,12 @@ public:
         gB_stopEducate->setTitle(QCoreApplication::translate("MainWindow", "\320\232\321\200\320\270\321\202\320\265\321\200\320\270\320\271 \320\276\321\201\321\202\320\260\320\275\320\276\320\262\320\272\320\270 \320\276\320\261\321\203\321\207\320\265\320\275\320\270\321\217:", nullptr));
         cmbB_trainStop->setItemText(0, QCoreApplication::translate("MainWindow", "FANN_STOPFUNC_MSE", nullptr));
         cmbB_trainStop->setItemText(1, QCoreApplication::translate("MainWindow", "FANN_STOPFUNC_BIT", nullptr));
+
+        comboBoxTrainAlgorithm->setItemText(0, QCoreApplication::translate("MainWindow", "FANN_TRAIN_INCREMENTAL", nullptr));
+        comboBoxTrainAlgorithm->setItemText(1, QCoreApplication::translate("MainWindow", "FANN_TRAIN_BATCH", nullptr));
+        comboBoxTrainAlgorithm->setItemText(2, QCoreApplication::translate("MainWindow", "FANN_TRAIN_RPROP", nullptr));
+        comboBoxTrainAlgorithm->setItemText(3, QCoreApplication::translate("MainWindow", "FANN_TRAIN_QUICKPROP", nullptr));
+        comboBoxTrainAlgorithm->setItemText(4, QCoreApplication::translate("MainWindow", "FANN_TRAIN_SARPROP", nullptr));
 
         cB_set_weights->setText(QCoreApplication::translate("MainWindow", "\320\243\321\201\321\202\320\260\320\275\320\276\320\262\320\270\321\202\321\214 \320\262\320\265\321\201\320\260 \320\270\320\267 \320\276\320\261\321\203\321\207\320\260\321\216\321\211\320\265\320\271 \320\262\321\213\320\261\320\276\321\200\320\272\320\270", nullptr));
         pB_displayGraphic->setText(QCoreApplication::translate("MainWindow", "\320\236\321\202\320\276\320\261\321\200\320\260\320\267\320\270\321\202\321\214 \320\275\320\260 \320\263\321\200\320\260\321\204\320\270\320\272\320\265", nullptr));

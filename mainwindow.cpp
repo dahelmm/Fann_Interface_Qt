@@ -231,9 +231,11 @@ void MainWindow::on_pB_load_sample_clicked()
         QCheckBox *box = qobject_cast<QCheckBox*>(gridLGraphics->itemAt(i)->widget());
         box->setChecked(plot->graph(i)->visible());
       }
-      ui->gB_training->setEnabled(true);
   }
-
+  ui->gB_training->setEnabled(true);
+  ui->pB_educate->setEnabled(false);
+  ui->pB_displayGraphic->setEnabled(false);
+  ui->buttonClearResultEducate->setEnabled(false);
 }
 
 void MainWindow::slotChecked(bool state)
@@ -330,7 +332,7 @@ void MainWindow::on_pB_educate_clicked()
   fann_set_train_stop_function(ann, fann_stopfunc_enum(ui->cmbB_trainStop->currentIndex()));
   fann_set_bit_fail_limit(ann, 0.01f);
 
-  fann_train_enum trainAlgorithm = static_cast<fann_train_enum>(ui->comboBoxTrainAlgorithm->currentIndex());
+  fann_train_enum trainAlgorithm = fann_train_enum(ui->comboBoxTrainAlgorithm->currentIndex());
   fann_set_training_algorithm(ann, trainAlgorithm);
   if(ui->cB_set_weights->isChecked())
     fann_init_weights(ann, sub_train_data);
@@ -370,7 +372,16 @@ void MainWindow::on_pB_displayGraphic_clicked()
         penPlot.setWidth(1);
         penPlot.setColor(QColor((rand()%255),rand()%255,(rand()%255)));
         plot->graph(num_graph)->setPen(penPlot);
-        plot->graph(num_graph)->setName(QString("ИНС выход %1").arg(j-train_data->num_input+1));
+        if(num_neurons)
+          plot->graph(num_graph)->setName(QString("Вых.%1_%2_%3x%4").arg(j-train_data->num_input+1)
+                                                                  .arg(ui->comboBoxTrainAlgorithm->currentIndex())
+                                                                  .arg(ui->sB_number_layers->value())
+                                                                  .arg(num_neurons[1]));
+        else
+          plot->graph(num_graph)->setName(QString("Вых.%1_%2_%3x%4").arg(j-train_data->num_input+1)
+                                                                  .arg(ui->comboBoxTrainAlgorithm->currentIndex())
+                                                                  .arg(ui->sB_number_layers->value())
+                                                                  .arg(ui->sB_number_neurons->value()));
         for(unsigned int i=start_num_train; i<finish_num_train; i++) {
           input = fann_get_train_output(sub_train_data,i);
           calc_out = fann_run(ann, input);
@@ -421,8 +432,22 @@ void MainWindow::on_cmbB_select_neurons_currentIndexChanged(int index)
 
 void MainWindow::on_buttonClearResultEducate_clicked()
 {
-
+  for(int i = 0; i < ui->tW_grapfics->count(); i++)
+  {
+    QCustomPlot *plot = qobject_cast<QCustomPlot*>(ui->tW_grapfics->widget(i));
+    unsigned int countGraphNow = plot->graphCount();
+    unsigned int countGraphOrigin = train_data->num_input + train_data->num_output;
+    if(countGraphNow > countGraphOrigin)
+    {
+      int diff = countGraphNow - countGraphOrigin;
+      for(int j = 0; j < diff; j++)
+      {
+        plot->removeGraph(j+countGraphOrigin);
+      }
+    }
+    plot->replot();
+  }
   ui->pB_educate->setEnabled(true);
-  ui->pB_displayGraphic->setEnabled(true);
+  ui->pB_displayGraphic->setEnabled(false);
   ui->buttonClearResultEducate->setEnabled(false);
 }
