@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created by: Qt User Interface Compiler version 5.14.2
+** Created by: Qt User Interface Compiler version 5.13.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -503,6 +503,15 @@ public:
         cmbB_fun_activation_layers->addItem(QString());
         cmbB_fun_activation_layers->addItem(QString());
         cmbB_fun_activation_layers->addItem(QString());
+        cmbB_fun_activation_layers->addItem(QString());
+        cmbB_fun_activation_layers->addItem(QString());
+        cmbB_fun_activation_layers->addItem(QString());
+        cmbB_fun_activation_layers->addItem(QString());
+        cmbB_fun_activation_layers->addItem(QString());
+        cmbB_fun_activation_layers->addItem(QString());
+        cmbB_fun_activation_layers->addItem(QString());
+        cmbB_fun_activation_layers->addItem(QString());
+        cmbB_fun_activation_layers->addItem(QString());
         cmbB_fun_activation_layers->setObjectName(QString::fromUtf8("cmbB_fun_activation_layers"));
         QSizePolicy sizePolicy10(QSizePolicy::Fixed, QSizePolicy::Fixed);
         sizePolicy10.setHorizontalStretch(0);
@@ -527,6 +536,15 @@ public:
         horizontalLayout_4->addWidget(l_fun_activation_outputs);
 
         cmbB_fun_activation_outputs = new QComboBox(gB_create);
+        cmbB_fun_activation_outputs->addItem(QString());
+        cmbB_fun_activation_outputs->addItem(QString());
+        cmbB_fun_activation_outputs->addItem(QString());
+        cmbB_fun_activation_outputs->addItem(QString());
+        cmbB_fun_activation_outputs->addItem(QString());
+        cmbB_fun_activation_outputs->addItem(QString());
+        cmbB_fun_activation_outputs->addItem(QString());
+        cmbB_fun_activation_outputs->addItem(QString());
+        cmbB_fun_activation_outputs->addItem(QString());
         cmbB_fun_activation_outputs->addItem(QString());
         cmbB_fun_activation_outputs->addItem(QString());
         cmbB_fun_activation_outputs->addItem(QString());
@@ -672,6 +690,15 @@ public:
         cmbB_fun_activation_layers->setItemText(6, QCoreApplication::translate("MainWindow", "FANN_SIGMOID_SYMMETRIC_STEPWISE", nullptr));
         cmbB_fun_activation_layers->setItemText(7, QCoreApplication::translate("MainWindow", "FANN_GAUSSIAN", nullptr));
         cmbB_fun_activation_layers->setItemText(8, QCoreApplication::translate("MainWindow", "FANN_GAUSSIAN_SYMMETRIC", nullptr));
+        cmbB_fun_activation_layers->setItemText(9, QCoreApplication::translate("MainWindow", "FANN_GAUSSIAN_STEPWISE", nullptr));
+        cmbB_fun_activation_layers->setItemText(10, QCoreApplication::translate("MainWindow", "FANN_ELLIOT", nullptr));
+        cmbB_fun_activation_layers->setItemText(11, QCoreApplication::translate("MainWindow", "FANN_ELLIOT_SYMMETRIC", nullptr));
+        cmbB_fun_activation_layers->setItemText(12, QCoreApplication::translate("MainWindow", "FANN_LINEAR_PIECE", nullptr));
+        cmbB_fun_activation_layers->setItemText(13, QCoreApplication::translate("MainWindow", "FANN_LINEAR_PIECE_SYMMETRIC", nullptr));
+        cmbB_fun_activation_layers->setItemText(14, QCoreApplication::translate("MainWindow", "FANN_SIN_SYMMETRIC", nullptr));
+        cmbB_fun_activation_layers->setItemText(15, QCoreApplication::translate("MainWindow", "FANN_COS_SYMMETRIC", nullptr));
+        cmbB_fun_activation_layers->setItemText(16, QCoreApplication::translate("MainWindow", "FANN_SIN", nullptr));
+        cmbB_fun_activation_layers->setItemText(17, QCoreApplication::translate("MainWindow", "FANN_COS", nullptr));
 
         l_fun_activation_outputs->setText(QCoreApplication::translate("MainWindow", "\320\244\321\203\320\275\320\272\321\206\320\270\321\217 \320\260\320\272\321\202\320\270\320\262\320\260\321\206\320\270\320\270 \320\264\320\273\321\217 \320\262\321\213\321\205\320\276\320\264\320\276\320\262:", nullptr));
         cmbB_fun_activation_outputs->setItemText(0, QCoreApplication::translate("MainWindow", "FANN_LINEAR", nullptr));
@@ -683,6 +710,15 @@ public:
         cmbB_fun_activation_outputs->setItemText(6, QCoreApplication::translate("MainWindow", "FANN_SIGMOID_SYMMETRIC_STEPWISE", nullptr));
         cmbB_fun_activation_outputs->setItemText(7, QCoreApplication::translate("MainWindow", "FANN_GAUSSIAN", nullptr));
         cmbB_fun_activation_outputs->setItemText(8, QCoreApplication::translate("MainWindow", "FANN_GAUSSIAN_SYMMETRIC", nullptr));
+        cmbB_fun_activation_outputs->setItemText(9, QCoreApplication::translate("MainWindow", "FANN_GAUSSIAN_STEPWISE", nullptr));
+        cmbB_fun_activation_outputs->setItemText(10, QCoreApplication::translate("MainWindow", "FANN_ELLIOT", nullptr));
+        cmbB_fun_activation_outputs->setItemText(11, QCoreApplication::translate("MainWindow", "FANN_ELLIOT_SYMMETRIC", nullptr));
+        cmbB_fun_activation_outputs->setItemText(12, QCoreApplication::translate("MainWindow", "FANN_LINEAR_PIECE", nullptr));
+        cmbB_fun_activation_outputs->setItemText(13, QCoreApplication::translate("MainWindow", "FANN_LINEAR_PIECE_SYMMETRIC", nullptr));
+        cmbB_fun_activation_outputs->setItemText(14, QCoreApplication::translate("MainWindow", "FANN_SIN_SYMMETRIC", nullptr));
+        cmbB_fun_activation_outputs->setItemText(15, QCoreApplication::translate("MainWindow", "FANN_COS_SYMMETRIC", nullptr));
+        cmbB_fun_activation_outputs->setItemText(16, QCoreApplication::translate("MainWindow", "FANN_SIN", nullptr));
+        cmbB_fun_activation_outputs->setItemText(17, QCoreApplication::translate("MainWindow", "FANN_COS", nullptr));
 
         l_number_input->setText(QCoreApplication::translate("MainWindow", "\320\232\320\276\320\273\320\270\321\207\320\265\321\201\321\202\320\262\320\276 \320\262\321\205\320\276\320\264\320\276\320\262:", nullptr));
         l_number_output->setText(QCoreApplication::translate("MainWindow", "\320\232\320\276\320\273\320\270\321\207\320\265\321\201\321\202\320\262\320\276 \320\262\321\213\321\205\320\276\320\264\320\276\320\262:", nullptr));
