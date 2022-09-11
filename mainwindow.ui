@@ -157,6 +157,42 @@
        <string>Обучение ИНС</string>
       </property>
       <layout class="QGridLayout" name="gridLayout_10">
+       <item row="4" column="0">
+        <widget class="QGroupBox" name="gB_paraneters_subsample">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="title">
+          <string>Параметры подвыборки</string>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_8">
+          <item row="0" column="0">
+           <layout class="QHBoxLayout" name="horizontalLayout_7">
+            <item>
+             <widget class="QLabel" name="l_interval_from">
+              <property name="text">
+               <string>Интверал пар, от:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLineEdit" name="lE_interval_from"/>
+            </item>
+            <item>
+             <widget class="QLabel" name="l_interval_before">
+              <property name="text">
+               <string>до:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLineEdit" name="lE_interval_before"/>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+       </item>
        <item row="0" column="0">
         <layout class="QVBoxLayout" name="verticalLayout">
          <item>
@@ -185,6 +221,35 @@
               </item>
              </widget>
             </item>
+            <item row="1" column="0">
+             <widget class="QComboBox" name="comboBoxTrainAlgorithm">
+              <item>
+               <property name="text">
+                <string>FANN_TRAIN_INCREMENTAL</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>FANN_TRAIN_BATCH</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>FANN_TRAIN_RPROP</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>FANN_TRAIN_QUICKPROP</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>FANN_TRAIN_SARPROP</string>
+               </property>
+              </item>
+             </widget>
+            </item>
            </layout>
           </widget>
          </item>
@@ -196,6 +261,36 @@
           </widget>
          </item>
         </layout>
+       </item>
+       <item row="5" column="0">
+        <widget class="QPushButton" name="pB_displayGraphic">
+         <property name="text">
+          <string>Отобразить на графике</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QPushButton" name="pB_educate">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>Обучить на полной выборке</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QCheckBox" name="cB_subsample">
+         <property name="text">
+          <string>Задать частичную выборку</string>
+         </property>
+        </widget>
        </item>
        <item row="1" column="0">
         <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -282,69 +377,10 @@
          </item>
         </layout>
        </item>
-       <item row="2" column="0">
-        <widget class="QPushButton" name="pB_educate">
-         <property name="enabled">
-          <bool>false</bool>
-         </property>
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
+       <item row="6" column="0">
+        <widget class="QPushButton" name="buttonClearResultEducate">
          <property name="text">
-          <string>Обучить на полной выборке</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="0">
-        <widget class="QCheckBox" name="cB_subsample">
-         <property name="text">
-          <string>Задать частичную выборку</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="0">
-        <widget class="QGroupBox" name="gB_paraneters_subsample">
-         <property name="enabled">
-          <bool>false</bool>
-         </property>
-         <property name="title">
-          <string>Параметры подвыборки</string>
-         </property>
-         <layout class="QGridLayout" name="gridLayout_8">
-          <item row="0" column="0">
-           <layout class="QHBoxLayout" name="horizontalLayout_7">
-            <item>
-             <widget class="QLabel" name="l_interval_from">
-              <property name="text">
-               <string>Интверал пар, от:</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QLineEdit" name="lE_interval_from"/>
-            </item>
-            <item>
-             <widget class="QLabel" name="l_interval_before">
-              <property name="text">
-               <string>до:</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QLineEdit" name="lE_interval_before"/>
-            </item>
-           </layout>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item row="5" column="0">
-        <widget class="QPushButton" name="pB_displayGraphic">
-         <property name="text">
-          <string>Отобразить на графике</string>
+          <string>Очистить результаты ИНС</string>
          </property>
         </widget>
        </item>

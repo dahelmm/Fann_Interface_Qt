@@ -42,6 +42,8 @@ private slots:
   void on_cB_all_or_alone_stateChanged(int arg1);
   void on_cmbB_select_neurons_currentIndexChanged(int index);
 
+  void on_buttonClearResultEducate_clicked();
+
 private:
   Ui::MainWindow *ui;
   unsigned int    num_layers, num_latent_layers;

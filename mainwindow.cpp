@@ -330,7 +330,7 @@ void MainWindow::on_pB_educate_clicked()
   fann_set_train_stop_function(ann, fann_stopfunc_enum(ui->cmbB_trainStop->currentIndex()));
   fann_set_bit_fail_limit(ann, 0.01f);
 
-  fann_train_enum trainAlgorithm = FANN_TRAIN_RPROP;
+  fann_train_enum trainAlgorithm = static_cast<fann_train_enum>(ui->comboBoxTrainAlgorithm->currentIndex());
   fann_set_training_algorithm(ann, trainAlgorithm);
   if(ui->cB_set_weights->isChecked())
     fann_init_weights(ann, sub_train_data);
@@ -347,6 +347,7 @@ void MainWindow::on_pB_educate_clicked()
 
   ui->pB_educate->setEnabled(false);
   ui->pB_displayGraphic->setEnabled(true);
+  ui->buttonClearResultEducate->setEnabled(false);
 }
 
 /*
@@ -381,8 +382,9 @@ void MainWindow::on_pB_displayGraphic_clicked()
   }
   fann_destroy_train(sub_train_data);
 
-  ui->pB_educate->setEnabled(true);
+  ui->pB_educate->setEnabled(false);
   ui->pB_displayGraphic->setEnabled(false);
+  ui->buttonClearResultEducate->setEnabled(true);
 }
 
 void MainWindow::on_cB_all_or_alone_stateChanged(int state)
@@ -415,4 +417,12 @@ void MainWindow::on_cmbB_select_neurons_currentIndexChanged(int index)
      && ui->cB_all_or_alone->isChecked()
      && nNeurosInCurrentLayer>0)
       num_neurons[index+1] = nNeurosInCurrentLayer;
+}
+
+void MainWindow::on_buttonClearResultEducate_clicked()
+{
+
+  ui->pB_educate->setEnabled(true);
+  ui->pB_displayGraphic->setEnabled(true);
+  ui->buttonClearResultEducate->setEnabled(false);
 }
